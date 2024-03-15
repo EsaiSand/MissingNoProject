@@ -1,10 +1,10 @@
-include user
-include expenses
-include ingredients
-include meals
-include expenses
-include subcriptions
-include debt
+# import user
+# import expenses
+# import ingredients
+# import meals
+# import expenses
+# import subcriptions
+# import debt
 
-main():
+def main():
   '''Main function of the program. What runs the full code'''
