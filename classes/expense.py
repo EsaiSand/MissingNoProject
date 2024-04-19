@@ -1,4 +1,4 @@
-class expense:
+class Expense:
     '''Attributes:
         name: str
         cost: float

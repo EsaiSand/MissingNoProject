@@ -1,4 +1,4 @@
-class ingredients:
+class Ingredients:
     '''
     Attributes:
         ingedient_name: str

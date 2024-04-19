@@ -1,4 +1,4 @@
-class user:
+class User:
     '''
     Attributes:
         name: str
@@ -8,22 +8,21 @@ class user:
         funds: float
         pay_Schedule: int
     '''
-def user(self):
-    '''Creates the user object'''
-    self.name = ''
-    self.email = ''
-    self.password = ''
-    self.income = ''
-    self.funds = ''
-    self.pay_schedule = ''
-
-
+def __init__(self, name = "user", email = "", password = "password", income = 0.0, funds = 0.0, schedule = 0):
+    '''Creates the user object with default attributes if none provided'''
+    self.name = name
+    self.email = email
+    self.password = password
+    self.income = income
+    self.funds = funds
+    self.pay_schedule = schedule
 
 def set_username(self, username):
-    '''Sets the username of the user and stores it'''
+    '''Sets the username of the user'''
+    self.name = username
 
 def set_password(self, password):
-    '''Sets the password of the user who is logged in'''
+    '''Sets the password of the user'''
 
 def set_email(self, email):
     '''Sets the email of the user'''
@@ -35,4 +34,14 @@ def set_pay_schedule(self, new_sched):
     '''Sets the payment schedule'''
 
 def get_funds(self, funds):
-    '''gets the ammount of funds that the user has available'''
+    '''Gets the ammount of funds that the user has available'''
+
+def __str__(self):
+    '''To string method for user class'''
+    info = f"""USER {self.name}:
+        Email: {self.email}
+        Password: {self.password}
+        Income: {self.income}
+        Funds: {self.funds}
+        Pay Schedule: {self.pay_schedule}"""
+    return info

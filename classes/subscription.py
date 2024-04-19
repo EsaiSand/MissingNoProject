@@ -1,4 +1,4 @@
-class subscription:
+class Subscription:
     '''
     Attributes:
         subscription_name: str

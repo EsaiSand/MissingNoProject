@@ -1,4 +1,4 @@
-class meal:
+class Meal:
     '''
     Attributes:
         food: str
