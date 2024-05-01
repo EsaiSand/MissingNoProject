@@ -1,3 +1,4 @@
+import json
 class Expense:
     '''A class to represent an expense with various attributes.
     
@@ -16,6 +17,14 @@ class Expense:
         self.date = ''
         self.category = ''
         self.categories = []
+        
+        
+    def __str__(self) -> str:
+        return "Expense Details: " + self.name +"\nCost: "+ str((f"Expense Cost: ${self.cost:.2f}")) + "\nDate of expense: "+ str(self.date) + "\nCategory: " + self.category
+    
+    
+    def to_json(self):
+        return json.dumps(self.__dict__)
 
     def set_name(self, name: str):
         '''Set the name of the expense.
@@ -75,80 +84,112 @@ class Expense:
             print(f"Category '{category}' removed.")
         else:
             print(f"Error: '{category}' does not exist.")
-
-def main():
-    # Create an Expense object
-    expense = Expense()
     
-    # Menu loop
-    while True:
-        print("\nOptions:")
-        print("1. Add a category")
-        print("2. Remove a category")
-        print("3. Set expense name")
-        print("4. Set expense cost")
-        print("5. Set expense date")
-        print("6. Set expense category")
-        print("7. View expense details")
-        print("8. Exit")
-
-        choice = input("\nChoose an option (1-8): ")
-
-        if choice == "1":
-            # Add a category
-            category = input("\nEnter the category name: ")
-            expense.add_category(category)
-
-        elif choice == "2":
-            # Remove a category
-            category = input("\nEnter the category name to remove: ")
-            expense.remove_category(category)
-
-        elif choice == "3":
-            # Set expense name
-            name = input("\nEnter the expense name: ")
-            expense.set_name(name)
-            print(f"Expense Name: {expense.name}")
-
-        elif choice == "4":
-            # Set expense cost
-            while True:
+    def create():
+        '''Static method of the class used to create an instance of the class while prompting the user'''
+        expense = Expense()
+        category = input("\nEnter the category name: ")
+        expense.add_category(category)
+        name = input("\nEnter the expense name: ")
+        expense.set_name(name)
+        while True:
                 try:
                     cost = float(input("\nEnter the expense cost: "))
                     break
                 except ValueError:
                     print("Invalid input. Please enter a numeric value.")
-            expense.set_cost(cost)
-            print(f"Expense Cost: ${expense.cost:.2f}")
+        expense.set_cost(cost)
+        date = input("\nEnter the expense date (YYYY-MM-DD): ")
+        expense.set_date(date)
+        category = input("\nEnter the category for the expense: ")
+        
+        expense.set_category(category)
+        return expense
+        
+        # date = input("\nEnter the expense date (YYYY-MM-DD): ")
+        # sub.set_pay_period(date)
+        # payment = input("\nEnter the one time payment ")
+        # sub.set_one_time_payment(payment)
+        # return expense
 
-        elif choice == "5":
-            # Set expense date
-            date = input("\nEnter the expense date (YYYY-MM-DD): ")
-            expense.set_date(date)
-            print(f"Expense Date: {expense.date}")
+def main():
+    # Create an Expense object
+    expense = Expense.create()
+    
+    # Menu loop
+    # while True:
+    #     print("\nOptions:")
+    #     print("1. Add a category")
+    #     print("2. Remove a category")
+    #     print("3. Set expense name")
+    #     print("4. Set expense cost")
+    #     print("5. Set expense date")
+    #     print("6. Set expense category")
+    #     print("7. View expense details")
+    #     print("8. Exit")
 
-        elif choice == "6":
-            # Set expense category
-            category = input("\nEnter the category for the expense: ")
-            expense.set_category(category)
-            if expense.category:
-                print(f"Expense Category: {expense.category}")
+    #     choice = input("\nChoose an option (1-8): ")
 
-        elif choice == "7":
-            # View expense details
-            print("\nExpense Details:")
-            print(f"Name: {expense.name}")
-            print(f"Cost: ${expense.cost:.2f}")
-            print(f"Date: {expense.date}")
-            print(f"Category: {expense.category}")
+    #     if choice == "1":
+    #         # Add a category
+    #         category = input("\nEnter the category name: ")
+    #         expense.add_category(category)
 
-        elif choice == "8":
-            # Exit the program
-            print("\nExiting the program.")
-            break
+    #     elif choice == "2":
+    #         # Remove a category
+    #         category = input("\nEnter the category name to remove: ")
+    #         expense.remove_category(category)
 
-        else:
-            print("\nInvalid choice. Please try again.")
+    #     elif choice == "3":
+    #         # Set expense name
+    #         name = input("\nEnter the expense name: ")
+    #         expense.set_name(name)
+    #         print(f"Expense Name: {expense.name}")
+
+    #     elif choice == "4":
+    #         # Set expense cost
+    #         while True:
+    #             try:
+    #                 cost = float(input("\nEnter the expense cost: "))
+    #                 break
+    #             except ValueError:
+    #                 print("Invalid input. Please enter a numeric value.")
+    #         expense.set_cost(cost)
+    #         print(f"Expense Cost: ${expense.cost:.2f}")
+
+    #     elif choice == "5":
+    #         # Set expense date
+    #         date = input("\nEnter the expense date (YYYY-MM-DD): ")
+    #         expense.set_date(date)
+    #         print(f"Expense Date: {expense.date}")
+
+    #     elif choice == "6":
+    #         # Set expense category
+    #         category = input("\nEnter the category for the expense: ")
+    #         expense.set_category(category)
+    #         if expense.category:
+    #             print(f"Expense Category: {expense.category}")
+
+    #     elif choice == "7":
+    #         # View expense details
+    #         print("\nExpense Details:")
+    #         print(f"Name: {expense.name}")
+    #         print(f"Cost: ${expense.cost:.2f}")
+    #         print(f"Date: {expense.date}")
+    #         print(f"Category: {expense.category}")
+
+    #     elif choice == "8":
+    #         # Exit the program
+    #         print("\nExiting the program.")
+    #         break
+
+    #     else:
+    #         print("\nInvalid choice. Please try again.")
+            
+    json_string = expense.to_json()
+    print(json_string)
+    print("\n")
+    print(expense)
 
 if __name__ == "__main__":
     main()
