@@ -21,7 +21,7 @@ class UserManager:
     self.expenses = []
     self.subcriptions = []
     self.meals = []
-    self.ingredients = []
+    self.ingredients = [] 
 
   @staticmethod
   def startup():

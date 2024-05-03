@@ -1,3 +1,6 @@
+import json
+import helpers as help
+
 class User:
     '''A class to represent a user with various attributes.
 
@@ -35,6 +38,7 @@ class User:
         Args:
             username (str): The new username for the user.
         '''
+        
         self.name = username
 
     def set_password(self, password: str):
@@ -89,7 +93,44 @@ class User:
                 f"Income: ${self.income:.2f}\n"
                 f"Funds: ${self.funds:.2f}\n"
                 f"Pay Schedule: Every {self.pay_schedule} days")
+    
+    def to_json(self):
+        '''
+        Returns user object in json string representation 
+        '''
+        # Objects attributes stored in dictionary
+        attr_dict = {
+            "name": self.name,
+            "email": self.amount,
+            "password": self.amount,
+            "income": self.is_compound,
+            "funds": self.int_period,
+            "pay_schedule": self.pay_schedule,
+        }
 
+        json_format = json.dumps(attr_dict, indent=4)
+        return json_format
+
+    @staticmethod
+    def from_json(json_string):
+        '''
+        Creates a static instance based on given json string following format
+        of to_json() method's json string
+        '''
+        attr_dict = json.loads(json_string)
+
+        obj = User()
+
+        obj.name = attr_dict["name"]
+        obj.email = attr_dict["email"]
+        obj.password = attr_dict["password"]
+        obj.income = attr_dict["income"]
+        obj.funds = attr_dict["funds"]
+        obj.pay_schedule = attr_dict["pay_schedule"]
+
+        return obj
+
+#vvv hould be moved into main file vvv
 def main():
     # Create a User object with default values
     user = User()
