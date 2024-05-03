@@ -1,195 +1,78 @@
 import json
-class Expense:
-    '''A class to represent an expense with various attributes.
-    
-    Attributes:
-        name (str): The name of the expense.
-        cost (float): The cost of the expense.
-        date (str): The date of the expense in YYYY-MM-DD format.
-        category (str): The category of the expense.
-        categories (list): A list of possible expense categories.
+from ingredient import Ingredients
+
+class Meal:
     '''
-    
+    Attributes:
+        food: str
+        price: float
+        ingredients: list
+    '''
     def __init__(self):
-        '''Initialize an Expense object with default values.'''
-        self.name = ''
-        self.cost = 0.0
-        self.date = ''
-        self.category = ''
-        self.categories = []
-        
-        
+        '''Creates the meal object'''
+        self.food = ''
+        self.price = 0
+        self.ingredients = []
+            
     def __str__(self) -> str:
-        return "Expense Details: " + self.name +"\nCost: "+ str((f"Expense Cost: ${self.cost:.2f}")) + "\nDate of expense: "+ str(self.date) + "\nCategory: " + self.category
+        return "Meal: " + self.food +"\nCost: "+ str(self.price) + "\nIngredients: "+ str(self.ingredients) 
     
     
     def to_json(self):
         return json.dumps(self.__dict__)
 
-    def set_name(self, name: str):
-        '''Set the name of the expense.
-        
-        Args:
-            name (str): The name of the expense.
-        '''
-        self.name = name
+    def set_food_name(self):
+        '''Gives the meal object a price based on ingredients used in the meal'''
+        self.food = input("What is the name of this meal?: ")
+        return self.food
 
-    def set_cost(self, cost: float):
-        '''Set the cost of the expense.
-        
-        Args:
-            cost (float): The cost of the expense.
-        '''
-        self.cost = cost
+    def set_price(self):
+        '''sets the price of the meals'''
+        for i in len(self.ingredients):
+            self.price += self.ingredients[i].ingredient_price
+        return self.price
 
-    def set_date(self, date: str):
-        '''Set the date of the expense.
-        
-        Args:
-            date (str): The date of the expense in YYYY-MM-DD format.
-        '''
-        self.date = date
-
-    def set_category(self, category: str):
-        '''Set the category of the expense.
-        
-        Args:
-            category (str): The category of the expense.
-        '''
-        if category in self.categories:
-            self.category = category
-        else:
-            print(f"Error: '{category}' is not a valid category. Please add it first.")
-
-    def add_category(self, category: str):
-        '''Add a new category to the list of categories.
-        
-        Args:
-            category (str): The new category to add.
-        '''
-        if category not in self.categories:
-            self.categories.append(category)
-            print(f"Category '{category}' added.")
-        else:
-            print(f"Category '{category}' already exists.")
-
-    def remove_category(self, category: str):
-        '''Remove a category from the list of categories.
-        
-        Args:
-            category (str): The category to remove.
-        '''
-        if category in self.categories:
-            self.categories.remove(category)
-            print(f"Category '{category}' removed.")
-        else:
-            print(f"Error: '{category}' does not exist.")
-    
-    def create():
-        '''Static method of the class used to create an instance of the class while prompting the user'''
-        expense = Expense()
-        category = input("\nEnter the category name: ")
-        expense.add_category(category)
-        name = input("\nEnter the expense name: ")
-        expense.set_name(name)
-        while True:
-                try:
-                    cost = float(input("\nEnter the expense cost: "))
-                    break
-                except ValueError:
-                    print("Invalid input. Please enter a numeric value.")
-        expense.set_cost(cost)
-        date = input("\nEnter the expense date (YYYY-MM-DD): ")
-        expense.set_date(date)
-        category = input("\nEnter the category for the expense: ")
-        
-        expense.set_category(category)
-        return expense
-        
-        # date = input("\nEnter the expense date (YYYY-MM-DD): ")
-        # sub.set_pay_period(date)
-        # payment = input("\nEnter the one time payment ")
-        # sub.set_one_time_payment(payment)
-        # return expense
-
-def main():
-    # Create an Expense object
-    expense = Expense.create()
-    
-    # Menu loop
-    # while True:
-    #     print("\nOptions:")
-    #     print("1. Add a category")
-    #     print("2. Remove a category")
-    #     print("3. Set expense name")
-    #     print("4. Set expense cost")
-    #     print("5. Set expense date")
-    #     print("6. Set expense category")
-    #     print("7. View expense details")
-    #     print("8. Exit")
-
-    #     choice = input("\nChoose an option (1-8): ")
-
-    #     if choice == "1":
-    #         # Add a category
-    #         category = input("\nEnter the category name: ")
-    #         expense.add_category(category)
-
-    #     elif choice == "2":
-    #         # Remove a category
-    #         category = input("\nEnter the category name to remove: ")
-    #         expense.remove_category(category)
-
-    #     elif choice == "3":
-    #         # Set expense name
-    #         name = input("\nEnter the expense name: ")
-    #         expense.set_name(name)
-    #         print(f"Expense Name: {expense.name}")
-
-    #     elif choice == "4":
-    #         # Set expense cost
-    #         while True:
-    #             try:
-    #                 cost = float(input("\nEnter the expense cost: "))
-    #                 break
-    #             except ValueError:
-    #                 print("Invalid input. Please enter a numeric value.")
-    #         expense.set_cost(cost)
-    #         print(f"Expense Cost: ${expense.cost:.2f}")
-
-    #     elif choice == "5":
-    #         # Set expense date
-    #         date = input("\nEnter the expense date (YYYY-MM-DD): ")
-    #         expense.set_date(date)
-    #         print(f"Expense Date: {expense.date}")
-
-    #     elif choice == "6":
-    #         # Set expense category
-    #         category = input("\nEnter the category for the expense: ")
-    #         expense.set_category(category)
-    #         if expense.category:
-    #             print(f"Expense Category: {expense.category}")
-
-    #     elif choice == "7":
-    #         # View expense details
-    #         print("\nExpense Details:")
-    #         print(f"Name: {expense.name}")
-    #         print(f"Cost: ${expense.cost:.2f}")
-    #         print(f"Date: {expense.date}")
-    #         print(f"Category: {expense.category}")
-
-    #     elif choice == "8":
-    #         # Exit the program
-    #         print("\nExiting the program.")
-    #         break
-
-    #     else:
-    #         print("\nInvalid choice. Please try again.")
+    def add_ingredients(self):
+        '''adds the ingredient to a list that makes up the meal'''
+        valid = False
+        while valid != True:
+            ingredient = input("What ingredient would you like to add   ")
+            self.ingredients.append(ingredient)
+            response = input("Would you like to add another ingredient (Y/N) ?  ")
+            if response == "Y"or response == "y":
+                continue
+            else:
+                valid = True
             
-    json_string = expense.to_json()
+        self.ingredients.append(ingredient)
+
+    def remove_ingredients(self, ingredient):
+        '''removes the last ingredient from the meal '''
+        self.ingredients.pop()
+
+    def list_ingredients(self):
+        '''displays a list of ingredients of the meal object'''
+        for i in range(len(self.ingredients)):
+            print(f'- {self.ingredients[1]}')
+            
+    @staticmethod
+    def create():
+        dood = Meal()
+        dood.food = dood.set_food_name()
+        dood.ingredients = dood.add_ingredients()
+        dood.price = dood.set_price()
+        return dood
+        
+    
+def main():
+    #Create a subscription object
+    meal = Meal.create()
+    
+    
+    json_string = meal.to_json()
     print(json_string)
     print("\n")
-    print(expense)
-
+    print(meal)
+            
 if __name__ == "__main__":
     main()
