@@ -37,7 +37,12 @@ class Ingredients:
                 valid = True
 
         return self.calories
+        return self.calories
 
+    def get_ingredient_name(self):
+        '''gets the name of the ingredient'''
+        self.ingredient_name = input("input the name of the ingredient: ")
+        return self.ingredient_name
     def get_ingredient_name(self):
         '''gets the name of the ingredient'''
         self.ingredient_name = input("input the name of the ingredient: ")
@@ -56,7 +61,20 @@ class Ingredients:
                 print("value must be an integer greater than 0")
             else:
                 valid = True
+    def get_ingredient_price(self):
+        '''gets the price of the ingredients'''
+        valid = False
+        while valid != True:
+            try:
+                self.ingredient_price = float(input("input the price of the ingredient: "))
+                if self.ingredient_price < 0:
+                    raise ValueError
+            except ValueError:
+                print("value must be an integer greater than 0")
+            else:
+                valid = True
 
+        return self.ingredient_price
         return self.ingredient_price
 
     def get_food_catagories(self):
