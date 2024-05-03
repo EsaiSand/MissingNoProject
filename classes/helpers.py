@@ -3,9 +3,10 @@ import re
 def validate_input(correct_type, question, regex=r"", valids=[]):
     '''
     Prompts the user for a valid input. Default is casting user input into valid type\n
-    correct_type: a value representing the target input type\n
+    correct_type: a value representing the target input type(if you want a float-> 0.0, int -> 1 etc...)\n
     question: The prompt for user input\n
-    (optional)regex: Raw string regular expression if looking for specifically formatted user string, or number ranges
+    (optional)regex: Raw string regular expression if looking for specifically formatted user string(Like for dates MM-DD-YYYY)
+    (optional)valids: A list containing valid items. First, input will be cast, then compared to list
     '''
     user_input = input(question)
     cast = type(correct_type)
