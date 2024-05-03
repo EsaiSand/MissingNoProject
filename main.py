@@ -1,15 +1,4 @@
-# from classes import user
-# from classes import expenses
-# from classes import ingredients
-# from classes import meals
-# from classes import expenses
-# from classes import subcriptions
-from classes.debt import Debt
-from classes.expense import Expense
-from classes.ingredient import Ingredients
-from classes.meal import Meal
-from classes.subscription import Subscription
-from classes.user import User 
+from classes.user_manager import  
 
 def login(user_name, password):
   """Lets a user attempt to login to a user account"""

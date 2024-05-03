@@ -1,3 +1,6 @@
+# List of possible expense categories
+CATEGORIES = []
+
 class Expense:
     '''A class to represent an expense with various attributes.
     
@@ -15,7 +18,6 @@ class Expense:
         self.cost = 0.0
         self.date = ''
         self.category = ''
-        self.categories = []
 
     def set_name(self, name: str):
         '''Set the name of the expense.
@@ -75,6 +77,10 @@ class Expense:
             print(f"Category '{category}' removed.")
         else:
             print(f"Error: '{category}' does not exist.")
+
+    def __str__(self):
+        info = f"{self.date}: '{self.name}' expense, {self.cost}, under {self.category} category"
+        return info
 
 def main():
     # Create an Expense object
