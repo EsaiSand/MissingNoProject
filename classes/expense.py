@@ -1,7 +1,4 @@
 import json
-
-# List of possible expense categories
-CATEGORIES = []
 class Expense:
     '''A class to represent an expense with various attributes.
     
@@ -87,48 +84,15 @@ class Expense:
             print(f"Category '{category}' removed.")
         else:
             print(f"Error: '{category}' does not exist.")
-
-    def __str__(self):
-        info = f"{self.date}: '{self.name}' expense, {self.cost}, under {self.category} category"
-        return info
-
-def main():
-    # Create an Expense object
-    expense = Expense()
     
-    # Menu loop
-    while True:
-        print("\nOptions:")
-        print("1. Add a category")
-        print("2. Remove a category")
-        print("3. Set expense name")
-        print("4. Set expense cost")
-        print("5. Set expense date")
-        print("6. Set expense category")
-        print("7. View expense details")
-        print("8. Exit")
-
-        choice = input("\nChoose an option (1-8): ")
-
-        if choice == "1":
-            # Add a category
-            category = input("\nEnter the category name: ")
-            expense.add_category(category)
-
-        elif choice == "2":
-            # Remove a category
-            category = input("\nEnter the category name to remove: ")
-            expense.remove_category(category)
-
-        elif choice == "3":
-            # Set expense name
-            name = input("\nEnter the expense name: ")
-            expense.set_name(name)
-            print(f"Expense Name: {expense.name}")
-
-        elif choice == "4":
-            # Set expense cost
-            while True:
+    def create():
+        '''Static method of the class used to create an instance of the class while prompting the user'''
+        expense = Expense()
+        category = input("\nEnter the category name: ")
+        expense.add_category(category)
+        name = input("\nEnter the expense name: ")
+        expense.set_name(name)
+        while True:
                 try:
                     cost = float(input("\nEnter the expense cost: "))
                     break
@@ -142,11 +106,6 @@ def main():
         expense.set_category(category)
         return expense
         
-        # date = input("\nEnter the expense date (YYYY-MM-DD): ")
-        # sub.set_pay_period(date)
-        # payment = input("\nEnter the one time payment ")
-        # sub.set_one_time_payment(payment)
-        # return expense
 
 def main():
     # Create an Expense object

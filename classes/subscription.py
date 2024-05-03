@@ -20,7 +20,7 @@ class Subscription:
     
     def to_json(self):
         return json.dumps(self.__dict__)
-    
+
     
     def set_subscription(self, subscription_name: str):
         '''Creates and sets the attributes of the subscription object'''
