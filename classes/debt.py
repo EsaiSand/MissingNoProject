@@ -1,15 +1,24 @@
 from datetime import datetime as dt
 from datetime import timedelta as td
+from dateutil.relativedelta import relativedelta
 import json
 import re
 import helpers as help
 
-VALID_INTERVALS = ["Monthly", "Yearly", "Biweekly", "Weekly"]
+
+
 class Debt:
     '''
     Class used to represent user debts
     '''
     DEBT_COUNT = 0
+    VALID_INTERVALS = ["Monthly", "Yearly", "Biweekly", "Weekly"]
+    INTERVAL_DELTAS = {
+        "Monthly": relativedelta(month=1),
+        "Yearly": relativedelta(year=1),
+        "Biweekly": relativedelta(weeks=2),
+        "Weekly": relativedelta(weeks=1)
+    }
 
     def __init__(self, debt_name = f"Debt {DEBT_COUNT}", start_amt = 0.0 ,curr_amt = 0.0, interest = 0.0, is_compound = True, interval = "MONTHLY"):
         '''
@@ -45,9 +54,17 @@ class Debt:
         ''''''
         return self.interest
 
-    def apply_interest(self):
-        '''Increases debt amount by using interest defined'''
-        self.amount += self.amount*self.interest
+    def update_debt(self):
+        '''Updates debt amount by applying corresponding interest since last time
+        it was applied'''
+        # Holds value of next date interest should be applied after 
+        next_date = self.last_inc + self.INTERVAL_DELTAS[self.int_period]
+
+        # Increases debt while "next" interest date has already passed
+        while(next_date < dt.now()):
+            self.amount += self.amount*self.interest
+            self.last_inc = next_date
+            next_date += self.INTERVAL_DELTAS[self.int_period]
     
     def make_payment(self, payment):
         '''Reduces debt quantitiy by payment amount'''
@@ -56,6 +73,14 @@ class Debt:
     def estimate_debt(self, due_date, periodic_payment=0.0):
         '''Estimates the amount of debt after a given time period if 
         payment is made periodically before interest is applied'''
+        estimate = self.amount
+        next_date = self.last_inc + self.INTERVAL_DELTAS[self.int_period]
+
+        while(next_date < due_date):
+            estimate += estimate*self.interest
+            next_date += self.INTERVAL_DELTAS[self.int_period]
+
+        return estimate
         
     def __str__(self):
         '''Returns description of debt's attributes'''
