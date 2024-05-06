@@ -96,6 +96,22 @@ class Subscription:
         return self.one_time_payment
     
     @staticmethod
+    def from_json(json_string):
+        '''Creates a static instance based on given json string
+            following format of to_json() method's json string
+        '''
+        attr_dict = json.loads(json_string)
+        
+        obj = Subscription()
+        
+        obj.subscription_name = attr_dict["Subscription Name"]
+        obj.cost = attr_dict["Subscription Cost"]
+        obj.one_time_payment = attr_dict["One time payment"]
+        obj.pay_period = ["Pay Period"]
+        
+        return obj
+        
+    @staticmethod
     def create():
         '''Static method of the class used to create an instance of the class while prompting the user'''
         sub = Subscription()

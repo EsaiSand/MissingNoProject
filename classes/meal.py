@@ -54,7 +54,23 @@ class Meal:
         '''displays a list of ingredients of the meal object'''
         for i in range(len(self.ingredients)):
             print(f'- {self.ingredients[1]}')
-            
+    
+    @staticmethod
+    def from_json(json_string):
+        '''
+        Creates a static instance based on given json string
+        following format of to_json() method's json string
+        '''
+        
+        attr_dict = json.loads(json_string)
+        
+        obj = Meal()
+        
+        obj.food = attr_dict["Food Name"]
+        obj.price = attr_dict["Meal Price"]
+        obj.ingredients = attr_dict["Ingredients"]
+        return obj
+    
     @staticmethod
     def create():
         dood = Meal()

@@ -80,7 +80,26 @@ class Ingredients:
     def get_food_catagories(self):
         self.catagory = input("what nutritional catagory is this item?: ")
         return self.catagory
+    
+    @staticmethod
+    def from_json(json_):
+        '''
+        Creates a static instance based on given json string following format
+        of to_json() method's json string
+        '''
         
+        attr_dict = json.loads(json_string)
+        
+        obj = Ingredients()
+        
+        obj.ingredient_name = attr_dict["Ingredient Name"]
+        obj.ingredient_price = attr_dict["Ingredient Price"]
+        obj.calories = attr_dict["Ingredient Calories"]
+        obj.catagories = attr_dict["Ingredient Categories"]
+        
+        return obj
+        
+    
     @staticmethod
     def create():
         ingre = Ingredients()

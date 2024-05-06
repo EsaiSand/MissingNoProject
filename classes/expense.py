@@ -85,6 +85,26 @@ class Expense:
         else:
             print(f"Error: '{category}' does not exist.")
     
+    
+    @staticmethod
+    def from_json(json_string):
+        '''
+        Creates a static instance based on given json string
+        following format of to_json() method's json string
+        '''
+        
+        attr_dict = json.loads(json_string)
+        
+        obj = Expense()
+        
+        obj.name = attr_dict["Expense Name"]
+        obj.cost = attr_dict["Expense Cost"]
+        obj.date = attr_dict["Expense Date"]
+        obj.category = attr_dict["Expense Category"]
+        obj.categories = attr_dict["Categories"]
+        
+        return obj
+    @staticmethod
     def create():
         '''Static method of the class used to create an instance of the class while prompting the user'''
         expense = Expense()
