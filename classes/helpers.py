@@ -8,29 +8,40 @@ def validate_input(correct_type, question, regex=r"", valids=[]):
     (optional)regex: Raw string regular expression if looking for specifically formatted user string(Like for dates MM-DD-YYYY)
     (optional)valids: A list containing valid items. First, input will be cast, then compared to list
     '''
-    user_input = input(question)
-    cast = type(correct_type)
     validated = False
 
     while not validated:
-        # Ensures user input is of proper type
-        while(type(user_input) != type(correct_type)):
-            try:
-                user_input = cast(user_input)
-                validated = True  
-            except ValueError:
-                print("Invalid input, try again")
-                validated = False
-                user_input = input(question)
+        user_input = input(question)
+        cast = type(correct_type)
 
         # Checks for proper string formatting is regex provided
         if regex != "":
-            if not re.search(regex, user_input):
+            if re.search(regex, user_input):
+                validated = True
+                user_input = re.findall(regex, user_input)
+                continue
+            else:
+                print("Invalid input")
+                continue
+                
+        # Ensures user input is of proper type
+        if(type(user_input) != type(correct_type)):
+            try:
+                user_input = cast(user_input)
+                if len(valids) == 0:
+                    validated =True
+                    continue  
+            except ValueError:
+                print("Invalid input, try again")
                 validated = False
+                continue
 
         # Checks for validity of input based on list of valid inputs provided
-        if valids.length() != 0:
-            if user_input not in valids:
-                validated = False
+        if len(valids) != 0:
+            if user_input in valids:
+                validated = True
+                continue
+            else:
+                print("Invalid input, try again")
 
     return user_input
