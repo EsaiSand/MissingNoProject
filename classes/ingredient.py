@@ -17,7 +17,8 @@ class Ingredients:
         self.catagories = ''
 
     def __str__(self):
-        return f"Ingredient: {self.ingredient_name}\nPrice: ${self.ingredient_price: .2f}\nCalories: {self.calories}\nCategories: {self.catagories}"
+        info =  f"Ingredient: {self.ingredient_name}\nPrice: ${self.ingredient_price: .2f}\nCalories: {self.calories}\nCategories: {self.catagories}"
+        return f"~|Ingredient  |Price    |Calories |Category |~\n||{self.ingredient_name: ^12}|{self.ingredient_price: ^9}|{self.calories: ^9}|{self.catagories: ^9}||"
 
     def to_json(self):
         return json.dumps(self.__dict__)
@@ -108,8 +109,6 @@ class Ingredients:
         ingre.calories = ingre.get_calories()
         ingre.catagories = ingre.get_food_catagories()
         return ingre
-
-
 
 def main():
     #Create a subscription object

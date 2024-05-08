@@ -20,8 +20,8 @@ class Expense:
         
         
     def __str__(self) -> str:
-        return "Expense Details: " + self.name +"\nCost: "+ str((f"Expense Cost: ${self.cost:.2f}")) + "\nDate of expense: "+ str(self.date) + "\nCategory: " + self.category
-    
+        info = "Expense Details: " + self.name +"\nCost: "+ str((f"Expense Cost: ${self.cost:.2f}")) + "\nDate of expense: "+ str(self.date) + "\nCategory: " + self.category
+        return f"~|Expense        |Cost        |Date           |Category    |~\n||{self.name: ^15}|{self.cost: ^12}|{self.date: ^15}|{self.category: ^12}||"
     
     def to_json(self):
         return json.dumps(self.__dict__)
@@ -130,6 +130,7 @@ class Expense:
 def main():
     # Create an Expense object
     expense = Expense.create()
+    
     
     # Menu loop
     # while True:

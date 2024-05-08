@@ -1,6 +1,7 @@
 import re
+from datetime import datetime as dt
 
-def validate_input(correct_type, question, regex=r"", valids=[]):
+def validate_input(correct_type, question, regex=r"", valids=[], pos=True):
     '''
     Prompts the user for a valid input. Default is casting user input into valid type\n
     correct_type: a value representing the target input type(if you want a float-> 0.0, int -> 1 etc...)\n
@@ -30,7 +31,9 @@ def validate_input(correct_type, question, regex=r"", valids=[]):
                 user_input = cast(user_input)
                 if len(valids) == 0:
                     validated =True
-                    continue  
+                    continue
+                if (cast == type(1) or cast == type(1.0)) and pos == True:
+                    validated = user_input >= 0 
             except ValueError:
                 print("Invalid input, try again")
                 validated = False
@@ -45,3 +48,60 @@ def validate_input(correct_type, question, regex=r"", valids=[]):
                 print("Invalid input, try again")
 
     return user_input
+
+
+def validate_date(question, max_date=dt.today(), min_date=dt(1900,1,1)):
+    '''
+    Prompts user for valid date following MM-DD-YYYY format
+
+    question: Prompt for user input
+    max_date(opt): Date object representing max user input date. Defaults to current day
+    min_date(opt): Date object representing minimum user input date. Defaults to Jan 1, 1900
+    '''
+    # Regular Expression for dates with format MM-DD-YYYY
+    regex=r"(^(1[0-2]|0?[1-9])-(3[01]|[12][0-9]|0?[1-9])-[0-9]{4})"
+    validated = False
+
+    while not validated:
+        user_input = input(question)
+
+        # Checks if input follows MM-DD-YYYY format
+        if re.search(regex, user_input):
+            user_input = re.findall(regex, user_input)[0][0]
+            print(user_input)
+
+            # Parsing year, month, day from input
+            mark = user_input.find("-")
+            month = int(user_input[0:mark])
+            user_input = user_input[mark+1:]
+            mark = user_input.find("-")
+            day = int(user_input[0:mark])
+            year = int(user_input[mark+1:])
+
+            # Attempts to create valid date from input
+            try:
+                date = dt(year, month, day)
+                user_input = date
+            except ValueError:
+                print("Invalid date: This date does not exist, try again")
+
+            # Checks that date is within bounds
+            if date > max_date:
+                print(f"Invalid date: Pick a date before {max_date.strftime(r"%x")}")
+            elif date < min_date:
+                print(f"Invalid date: Pick a date after {min_date.strftime(r"%x")}")
+            else:
+                validated = True
+            
+
+            continue
+        else:
+            print("Invalid input, try again")
+            continue
+
+    return user_input
+
+def main():
+    print(validate_date("Date : "))
+
+main()

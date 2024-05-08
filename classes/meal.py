@@ -15,7 +15,15 @@ class Meal:
         self.ingredients = []
             
     def __str__(self) -> str:
-        return "Meal: " + self.food +"\nCost: "+ str(self.price) + "\nIngredients: "+ str(self.ingredients) 
+        info =  "Meal: " + self.food +"\nCost: "+ str(self.price) + "\nIngredients: "+ str(self.ingredients) 
+        ing_list = ""
+        for ingredient in self.ingredients:
+            ing_list += ingredient.ingredient_name + ", "
+        ing_list = ing_list[:-2]
+        if len(ing_list) >= 28:
+            ing_list = ing_list[:28] + "..."
+
+        return f"~|Meal     |Cost   |Ingredients                    |~\n||{self.food}|{self.price}|{ing_list: ^31}||"
     
     
     def to_json(self):

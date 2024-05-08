@@ -95,7 +95,7 @@ class Debt:
         # Principal Debt quantity was ${self.prin_amt}, debt tracking was started on {self.start_date.strftime("%x")}
         # """
         x = r"%x"
-        info = f'~|Debt Name      |Initial     |Current     |Rate |Rate type |Applied  |Track Start    |Last Increment|~\n||{self.name: ^15}|{self.prin_amt: ^12}|{self.amount: ^12}|{self.interest: ^5}|{int_type: ^10}|{self.int_period: ^9}|{self.start_date.strftime(x): ^15}|{self.last_inc.strftime(x): ^14}||'
+        info = f'~|Debt           |Initial     |Current     |Rate |Rate type |Applied  |Track Start    |Last Increment|~\n||{self.name: ^15}|{self.prin_amt: ^12}|{self.amount: ^12}|{self.interest: ^5}|{int_type: ^10}|{self.int_period: ^9}|{self.start_date.strftime(x): ^15}|{self.last_inc.strftime(x): ^14}||'
         return info
     
     def to_json(self):

@@ -14,9 +14,9 @@ class Subscription:
         self.one_time_payment= 0
         self.pay_period = ''
         
-    def __str__(self) -> str:
-        return "Subscription: " + self.subscription_name +"\nCost: "+ str(self.cost) + "\nOne time payment: "+ str(self.one_time_payment) + "\nPay period: " + self.pay_period
-    
+    def __str__(self):
+        info =  "Subscription: " + self.subscription_name +"\nCost: "+ str(self.cost) + "\nOne time payment: "+ str(self.one_time_payment) + "\nPay period: " + self.pay_period
+        return f"~|Subscription   |Cost        |Pay Period     |~\n||{self.subscription_name: ^15}|{self.cost: ^12}|{self.pay_period: ^15}||"
     
     def to_json(self):
         return json.dumps(self.__dict__)
@@ -128,7 +128,9 @@ class Subscription:
 
 def main():
     #Create a subscription object
-    sub = Subscription.create()
+    # sub = Subscription.create()
+
+    print(Subscription())
     
     # #Menu
     # while True:
@@ -175,10 +177,10 @@ def main():
     #     else:
     #         print("\nInvalid choice please try again")
             
-    json_string = sub.to_json()
-    print(json_string)
-    print("\n")
-    print(sub)
+    # json_string = sub.to_json()
+    # print(json_string)
+    # print("\n")
+    # print(sub)
             
 if __name__ == "__main__":
     main()
