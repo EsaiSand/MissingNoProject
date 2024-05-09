@@ -10,7 +10,7 @@ class User:
         password (str): The password of the user.
         income (float): The monthly income of the user.
         funds (float): The current funds available to the user.
-        pay_schedule (int): The payment schedule (e.g., days between payments).
+        pay_schedule (str): The payment schedule (Monthly, Biweekly, or Weekly).
     '''
     
     def __init__(self, name: str = "user", email: str = "", password: str = "password",
@@ -88,12 +88,14 @@ class User:
         Returns:
             str: A string representing the user's attributes.
         '''
-        return (f"USER {self.name}:\n"
+        info = (f"USER {self.name}:\n"
                 f"Email: {self.email}\n"
                 f"Password: {self.password}\n"
                 f"Income: ${self.income:.2f}\n"
                 f"Funds: ${self.funds:.2f}\n"
                 f"Pay Schedule: Every {self.pay_schedule} days")
+    
+        return f"~|{'Username': ^14}|{'email': ^20}|{'password': ^20}|{'Income': ^12}|{'Funds': ^12}|{'Pay Schedule': ^12}|~\n||{self.name: ^14}|{self.email: ^20}|{'*' * len(self.password): ^20}|{self.income: ^12}|{self.funds: ^12}|{self.pay_schedule: ^12}||"
     
     def to_json(self):
         '''
@@ -102,10 +104,10 @@ class User:
         # Objects attributes stored in dictionary
         attr_dict = {
             "name": self.name,
-            "email": self.amount,
-            "password": self.amount,
-            "income": self.is_compound,
-            "funds": self.int_period,
+            "email": self.email,
+            "password": self.password,
+            "income": self.income,
+            "funds": self.funds,
             "pay_schedule": self.pay_schedule,
         }
 
@@ -133,10 +135,10 @@ class User:
     
     @staticmethod
     def create():
+        '''Creates custom instance of User by prompting for user input'''
         new_user = User()
 
-        new_user.name = help.validate_input(" ", "Enter a username: " )
-        
+        new_user.name = input("Provide a username: ")
         new_user.email = help.validate_input(" ", "Enter user email: ", regex=r"^.+@.+\..{3}")
         
         pass_checked = False
@@ -154,11 +156,24 @@ class User:
         new_user.funds = help.validate_input(0.0, "What are your current funds available for budgeting?(ex. $1233.05): $", pos=True)
         
 
+        choice = help.validate_input(0, "What is your expected income period? (Ex. If paid every 2 weeks, select 2)\n1. Monthly\n2. Biweekly\n3. Weekly\nSelection: ", valids=[1,2,3])
+        match choice:
+            case 1:
+                new_user.pay_schedule = "Monthly"
+            case 2:
+                new_user.pay_schedule = "Biweekly"
+            case 3:
+                new_user.pay_schedule = "Weekly"
+    
+        new_user.income = help.validate_input(0.0, "What is your expected income for every pay period?(If paid weekly, expected payment after every week): $", pos=True)
+
+        return new_user
+
 #vvv hould be moved into main file vvv
 def main():
     # Create a User object with default values
     user = User()
-    
+
     # Menu loop
     while True:
         print("\nOptions:")

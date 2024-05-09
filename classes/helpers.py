@@ -18,8 +18,11 @@ def validate_input(correct_type, question, regex=r"", valids=[], pos=True):
         if regex != "":
             if re.search(regex, user_input):
                 validated = True
-                user_input = re.findall(regex, user_input)
-                print("In the first checkpoint")
+                print(re.findall(regex, user_input))
+                user_input = re.findall(regex, user_input)[0]
+                
+                if type(correct_type) == type("string"):
+                    continue
             else:
                 print("Invalid input")
                 continue
@@ -29,11 +32,15 @@ def validate_input(correct_type, question, regex=r"", valids=[], pos=True):
         if(type(user_input) != type(correct_type)):
             try:
                 user_input = cast(user_input)
-                if len(valids) == 0:
-                    validated =True
-                    print("We validated")
+                validated = True    # Succseful cast, assume we're done at this point
+
+                # If cast was to number, validate if negatives allowed based on pos
                 if (cast == type(1) or cast == type(1.0)) and pos == True:
                     validated = user_input >= 0 
+                # If we have a list of valids to check against, not done yet
+                if len(valids) == 0:
+                    validated = True
+
             except ValueError:
                 print("Invalid input, try again")
                 validated = False
@@ -69,7 +76,6 @@ def validate_date(question, max_date=dt.today(), min_date=dt(1900,1,1)):
         # Checks if input follows MM-DD-YYYY format
         if re.search(regex, user_input):
             user_input = re.findall(regex, user_input)[0][0]
-            print(user_input)
 
             # Parsing year, month, day from input
             mark = user_input.find("-")
@@ -88,9 +94,9 @@ def validate_date(question, max_date=dt.today(), min_date=dt(1900,1,1)):
 
             # Checks that date is within bounds
             if date > max_date:
-                print(f"Invalid date: Pick a date before {max_date.strftime('%x')}")
+                print(f"Invalid date: Pick a date before {max_date.strftime(r'%x')}")
             elif date < min_date:
-                print(f"Invalid date: Pick a date after {min_date.strftime('%x')}")
+                print(f"Invalid date: Pick a date after {min_date.strftime(r'%x')}")
             else:
                 validated = True
             
@@ -99,10 +105,11 @@ def validate_date(question, max_date=dt.today(), min_date=dt(1900,1,1)):
         else:
             print("Invalid input, try again")
             continue
-
+    
     return user_input
 
 def main():
-    print(validate_date("Date : "))
+    print(type('x'*20))
 
-main()
+if __name__ == "__main__":
+    main()

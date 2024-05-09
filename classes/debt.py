@@ -33,7 +33,7 @@ class Debt:
         start_date (date) -- The date when debt started to be tracked. Used for reporting purposes\n
         last_inc (date)   -- Date of last time interest was applied
         '''
-        self.name = f"Debt {0}"
+        self.name = f"Debt {Debt.DEBT_COUNT}"
         self.prin_amt = 0.0
         self.amount = 0.0
         self.interest = 0.0
@@ -41,7 +41,7 @@ class Debt:
         self.int_period = "Monthly"
         self.start_date = dt.datetime.now()
         self.last_inc = dt.datetime.now()
-        self.DEBT_COUNT += 1
+        Debt.DEBT_COUNT += 1
 
     def set_interest(self, new_interest):
         '''Sets interest of debt instance'''
@@ -91,13 +91,11 @@ class Debt:
         else:
             int_type = "Principal"
 
-        # info = f"""'{self.name}' debt: \n
-        # Current debt is ${self.amount} at {self.interest*100}% interest applied {self.int_period} as {int_type} interest.\n
-        # Principal Debt quantity was ${self.prin_amt}, debt tracking was started on {self.start_date.strftime("%x")}
-        # """
         x = r"%x"
-        info = f'~|Debt           |Initial     |Current     |Rate |Rate type |Applied  |Track Start    |Last Increment|~\n||{self.name: ^15}|{self.prin_amt: ^12}|{self.amount: ^12}|{self.interest: ^5}|{int_type: ^10}|{self.int_period: ^9}|{self.start_date.strftime(x): ^15}|{self.last_inc.strftime(x): ^14}||'
-        return info
+        title = f"\n~|{'Debt': ^15}|{'Initial': ^12}|{'Current': ^12}|{'Rate': ^5}|{'Rate type': ^10}|{'Applied': ^9}|{'Track Start': ^15}|Last Increment|~\n"
+        contents = f"||{self.name: ^15}|{self.prin_amt: ^12}|{self.amount: ^12}|{self.interest: ^5}|{int_type: ^10}|{self.int_period: ^9}|{self.start_date.strftime(x): ^15}|{self.last_inc.strftime(x): ^14}||"
+        # info = f"\n~|{'Debt': ^15}|{'Initial': ^12}|{'Current': ^12}|{'Rate': ^5}|{'Rate type': ^10}|{'Applied': ^9}|{'Track Start': ^15}|Last Increment|~\n||{self.name: ^15}|{self.prin_amt: ^12}|{self.amount: ^12}|{self.interest: ^5}|{int_type: ^10}|{self.int_period: ^9}|{self.start_date.strftime(x): ^15}|{self.last_inc.strftime(x): ^14}||"
+        return title + contents
     
     def to_json(self):
         '''
@@ -148,41 +146,36 @@ class Debt:
         '''
         Creates debt instance by prompting user for input
         '''
-        int_types = {"Compound": True, "Principal": False}
+        int_types = {"compound": True, "principal": False}
         new_debt = Debt()
 
         new_debt.name = input("Name your debt: ")
         new_debt.prin_amt = help.validate_input(0.0, "What was the initial loan for the debt?(ex. $12432.53, $200.0): $")
         new_debt.amount = help.validate_input(0.0, "How much debt is currently owed?(ex. $12432.53, $200.0): $")
-        new_debt.interest = help.validate_input(0.0, "What is the debt's interest rate?(ex. For 12%, write 0.12): ", regex=r"(^(0\.[0-9][0-9])|(1\.[0-9][0-9]))")
-        new_debt.is_compound = int_types[help.validate_input("d", "What type of interest is it?(Compound or Principal): ", valids=["Compound", "Principal"])]
+        new_debt.interest = help.validate_input(0.0, "What is the debt's interest rate?(ex. For 12%, write 0.12): ", regex=r"(?:^0*\.[0-9][0-9]*)|(?:1\.[0-9][0-9]*)")
+        new_debt.is_compound = int_types[help.validate_input("d", "What type of interest is it?('compound' or 'principal'): ", valids=["compound", "principal"])]
         new_debt.int_period = Debt.VALID_INTERVALS[help.validate_input(1, "Select the debt's interest period:\n1. Yearly\n2. Monthly\n3. Biweekly\n4. Weekly\nSelection: ", valids=[1,2,3,4])-1]
-        last_inc_str = help.validate_input(" ", "When was interest last applied?(Use MM-DD-YYYY format): ", regex=r"(^(1[0-2]|0?[1-9])-(3[01]|[12][0-9]|0?[1-9])-((20(([01][0-9])|(2[0-4])))|(19[0-9][0-9])))")[0][0]
-
-        print(last_inc_str)
-        mark = last_inc_str.find("-")
-        month = int(last_inc_str[0:mark])
-        last_inc_str = last_inc_str[mark+1:]
-        mark = last_inc_str.find("-")
-        day = int(last_inc_str[0:mark])
-        year = int(last_inc_str[mark+1:])
-        date = dt.datetime(year, month, day)
-
-        new_debt.last_inc = date
-
-        print(f"Created new debt:\n{str(new_debt)}")
+        new_debt.last_inc = help.validate_date("When was interest last applied?(Use MM-DD-YYYY format): ")
+        new_debt.start_date = dt.datetime.now()
+    
         return new_debt
 
 def main():
     # x = relativedelta(months=1)
     # print(x)
 
-    debt = Debt()
-    debt.last_inc -= Debt.INTERVAL_DELTAS["Monthly"]
-    print(debt)
-    debt.update_debt()
-    print(debt)
+    # debt = Debt()
+    # debt.last_inc -= Debt.INTERVAL_DELTAS["Monthly"]
+    # print(debt)
+    # debt.update_debt()
+    # print(debt)
 
-    # Debt.create()
+    x = Debt.create()
+    y = Debt()
+    print(x.last_inc.strftime(r"%x"))
+    print(y.last_inc.strftime(r"%x"))
+    print(y)
+    print(x)
 
-main()
+if __name__ == "__main__":
+    main()
