@@ -1,14 +1,13 @@
-from debt import Debt
+from classes.debt import Debt
 from expense import Expense
-# from ingredient import Ingredients
-# from meal import Meal
+from ingredient import Ingredients
+from meal import Meal
 from subscription import Subscription
 from user import User
 import helpers as help
 
 def main():
-  pass
-
+  UserManager.startup()
 class UserManager:
   '''User manager represents a user acccount:
   It controls the connection between a User object and its
@@ -32,11 +31,16 @@ class UserManager:
     print("1. Create new account")
     print("2. Login to existing account")
     inpt = help.validate_input(0, "Selection(1/2): ", valids=[1,2])
+    
 
     # Account creation process
     if inpt == 1:
-      pass
+      user = User.create()
+      user.subscriptions = Subscription.create()
     # Account login proccess
     else:
       pass
 
+
+if __name__ == "__main__":
+    main()

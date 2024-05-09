@@ -10,7 +10,6 @@ def validate_input(correct_type, question, regex=r"", valids=[], pos=True):
     (optional)valids: A list containing valid items. First, input will be cast, then compared to list
     '''
     validated = False
-
     while not validated:
         user_input = input(question)
         cast = type(correct_type)
@@ -20,18 +19,19 @@ def validate_input(correct_type, question, regex=r"", valids=[], pos=True):
             if re.search(regex, user_input):
                 validated = True
                 user_input = re.findall(regex, user_input)
-                continue
+                print("In the first checkpoint")
             else:
                 print("Invalid input")
                 continue
                 
         # Ensures user input is of proper type
+        print("Ensuring its of the proper type")
         if(type(user_input) != type(correct_type)):
             try:
                 user_input = cast(user_input)
                 if len(valids) == 0:
                     validated =True
-                    continue
+                    print("We validated")
                 if (cast == type(1) or cast == type(1.0)) and pos == True:
                     validated = user_input >= 0 
             except ValueError:
@@ -43,10 +43,11 @@ def validate_input(correct_type, question, regex=r"", valids=[], pos=True):
         if len(valids) != 0:
             if user_input in valids:
                 validated = True
-                continue
             else:
                 print("Invalid input, try again")
-
+        validated = True
+                
+    print("Were at the end and should return the user input")
     return user_input
 
 
@@ -87,9 +88,9 @@ def validate_date(question, max_date=dt.today(), min_date=dt(1900,1,1)):
 
             # Checks that date is within bounds
             if date > max_date:
-                print(f"Invalid date: Pick a date before {max_date.strftime(r"%x")}")
+                print(f"Invalid date: Pick a date before {max_date.strftime('%x')}")
             elif date < min_date:
-                print(f"Invalid date: Pick a date after {min_date.strftime(r"%x")}")
+                print(f"Invalid date: Pick a date after {min_date.strftime('%x')}")
             else:
                 validated = True
             

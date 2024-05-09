@@ -40,6 +40,7 @@ class User:
         '''
         
         self.name = username
+        return self.name
 
     def set_password(self, password: str):
         '''Sets the password of the user.
@@ -127,7 +128,7 @@ class User:
         obj.income = attr_dict["income"]
         obj.funds = attr_dict["funds"]
         obj.pay_schedule = attr_dict["pay_schedule"]
-
+        
         return obj
     
     @staticmethod
@@ -135,6 +136,7 @@ class User:
         new_user = User()
 
         new_user.name = help.validate_input(" ", "Enter a username: " )
+        
         new_user.email = help.validate_input(" ", "Enter user email: ", regex=r"^.+@.+\..{3}")
         
         pass_checked = False
@@ -150,6 +152,7 @@ class User:
         
         new_user.password = password
         new_user.funds = help.validate_input(0.0, "What are your current funds available for budgeting?(ex. $1233.05): $", pos=True)
+        
 
 #vvv hould be moved into main file vvv
 def main():
