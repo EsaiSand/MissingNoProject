@@ -1,4 +1,6 @@
 import json
+import helpers as help
+
 class Expense:
     '''A class to represent an expense with various attributes.
     
@@ -46,7 +48,7 @@ class Expense:
         '''Set the date of the expense.
         
         Args:
-            date (str): The date of the expense in YYYY-MM-DD format.
+            date (str): The date of the expense in MM-DD-YYYY format.
         '''
         self.date = date
 
@@ -104,26 +106,18 @@ class Expense:
         obj.categories = attr_dict["Categories"]
         
         return obj
+    
     @staticmethod
     def create():
         '''Static method of the class used to create an instance of the class while prompting the user'''
         expense = Expense()
-        category = input("\nEnter the category name: ")
-        expense.add_category(category)
-        name = input("\nEnter the expense name: ")
-        expense.set_name(name)
-        while True:
-                try:
-                    cost = float(input("\nEnter the expense cost: "))
-                    break
-                except ValueError:
-                    print("Invalid input. Please enter a numeric value.")
-        expense.set_cost(cost)
-        date = input("\nEnter the expense date (YYYY-MM-DD): ")
-        expense.set_date(date)
-        category = input("\nEnter the category for the expense: ")
-        
-        expense.set_category(category)
+
+        expense.name = help.validate_input("d", "Expense name: ")
+        expense.category = help.validate_input("d", "Enter the category of this expense: ")
+        expense.add_category(expense.category)
+        expense.cost = help.validate_input(0.0, "Enter the expense cost: $")
+        expense.date = help.validate_date("When was the expense made?(MM-DD-YYYY): ")
+
         return expense
         
 
