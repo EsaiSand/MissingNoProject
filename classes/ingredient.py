@@ -1,4 +1,5 @@
 import json
+import helpers as help
 class Ingredients:
     
     '''
@@ -10,10 +11,11 @@ class Ingredients:
     '''
     # Neccessary for retrieval purposes
     FOOD_GROUPS = ["Carbs", "Proteins", "Fats", "Vitamins", "Minerals", "Fibre"]
+    
     def __init__(self):
         '''Creates the ingredient object'''
-        self.ingredient_name = ''
-        self.ingredient_price = 0
+        self.name = ''
+        self.price = 0
         self.calories = 0
         self.nutrients = {
             "Carbs": 0.0,
@@ -30,69 +32,14 @@ class Ingredients:
             if(self.nutrients[category] != 0.0):
                 cat_str += category + " "
 
-        if len(cat_str) > 25:
-            cat_str = cat_str[:20] + "..."
+        cat_str = cat_str[:-1]
 
-        info =  f"Ingredient: {self.ingredient_name}\nPrice: ${self.ingredient_price: .2f}\nCalories: {self.calories}\nCategories: {self.nutrients}"
-        return f"~|{'Ingredient': ^12}|{'Price': ^9}|Calories |{'Nutrients': ^25} |~\n||{self.ingredient_name: ^12}|{self.ingredient_price: ^9}|{self.calories: ^9}|{cat_str: ^9}||"
-
-
-    def set_calories(self):
-        '''gets the calories of the ingredient'''
-        valid = False
-        while valid != True:
-            try:
-                self.calories = int(input("How many calories is the Ingredient: "))
-                if self.calories < 0:
-                    raise ValueError
-                
-            except ValueError:
-                print("value must be an integer greater than 0")
-            else:
-                valid = True
-
-    def set_ingredient_name(self):
-        '''gets the name of the ingredient'''
-        self.ingredient_name = input("Input the name of the ingredient: ")
-        return self.ingredient_name
-
-    def set_ingredient_price(self):
-        '''gets the price of the ingredients'''
-        valid = False
-        while valid != True:
-            try:
-                self.ingredient_price = float(input("input the price of the ingredient: "))
-                if self.ingredient_price < 0:
-                    raise ValueError
-            except ValueError:
-                print("value must be an integer greater than 0")
-            else:
-                valid = True
-
-    def set_ingredient_price(self):
-        '''sets the price of the ingredients'''
-        valid = False
-        while valid != True:
-            try:
-                self.ingredient_price = float(input("input the price of the ingredient: "))
-                if self.ingredient_price < 0:
-                    raise ValueError
-            except ValueError:
-                print("value must be an integer greater than 0")
-            else:
-                valid = True
-
-    def set_food_catagories(self):
-        '''Sets ingredient categories'''
-        categories = input("What nutritional category/categories does this item fall into?\nIf multiple, seperate by '.' (ex. grain.fruit): ")
-        categories = categories.split(".")
-
-        return self.category
+        return f"~|{'Ingredient': ^12}|{'Price': ^9}|Calories |{'Nutrients': ^45}|~\n||{self.name: ^12}|{self.price: ^9}|{self.calories: ^9}|{cat_str: ^45}||"
     
     def to_json(self):
         attr_dict = {
-            "ingredient_name": self.ingredient_name,
-            "ingredient_price": self.ingredient_price,
+            "ingredient_name": self.name,
+            "ingredient_price": self.price,
             "calories": self.calories,
             "categories": self.nutrients
         }
@@ -108,21 +55,22 @@ class Ingredients:
         
         obj = Ingredients()
         
-        obj.ingredient_name = attr_dict["ingredient_name"]
-        obj.ingredient_price = attr_dict["ingredient_price"]
+        obj.name = attr_dict["ingredient_name"]
+        obj.price = attr_dict["ingredient_price"]
         obj.calories = attr_dict["calories"]
         obj.nutrients = attr_dict["categories"]
         
         return obj
         
-    
     @staticmethod
     def create():
         ingre = Ingredients()
-        ingre.ingredient_name = ingre.set_ingredient_name()
-        ingre.ingredient_price = ingre.set_ingredient_price()
-        ingre.calories = ingre.set_calories()
-        ingre.nutrients = ingre.set_food_catagories()
+        ingre.name = input("Name of ingredient: ")
+        ingre.price = help.validate_input(0.0, f"What is the cost of a serving of {ingre.name}?: $", pos=True)
+        ingre.calories = help.validate_input(1, f"How many calories in a serving of {ingre.name}?: ", pos=True)
+        for categroy in ingre.nutrients:
+            ingre.nutrients[categroy] = help.validate_input(0.0, f"How many grams of {categroy} does a serving of {ingre.name} have?: ")
+
         return ingre
 
 def main():

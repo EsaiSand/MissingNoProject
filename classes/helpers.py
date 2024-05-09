@@ -6,8 +6,9 @@ def validate_input(correct_type, question, regex=r"", valids=[], pos=True):
     Prompts the user for a valid input. Default is casting user input into valid type\n
     correct_type: a value representing the target input type(if you want a float-> 0.0, int -> 1 etc...)\n
     question: The prompt for user input\n
-    (optional)regex: Raw string regular expression if looking for specifically formatted user string(Like for dates MM-DD-YYYY)
-    (optional)valids: A list containing valid items. First, input will be cast, then compared to list
+    (optional)regex: Raw string regular expression if looking for specifically formatted user string
+    (optional)valids: A list containing valid items. First, input will be casted, then compared to list
+    (optional)pos: Used for when casting to number. Denotes if input should be positive
     '''
     validated = False
     while not validated:
@@ -28,7 +29,6 @@ def validate_input(correct_type, question, regex=r"", valids=[], pos=True):
                 continue
                 
         # Ensures user input is of proper type
-        print("Ensuring its of the proper type")
         if(type(user_input) != type(correct_type)):
             try:
                 user_input = cast(user_input)
@@ -54,7 +54,6 @@ def validate_input(correct_type, question, regex=r"", valids=[], pos=True):
                 print("Invalid input, try again")
         validated = True
                 
-    print("Were at the end and should return the user input")
     return user_input
 
 
