@@ -1,5 +1,7 @@
 import json
 import helpers as help
+from datetime import datetime as dt
+from dateutil.relativedelta import relativedelta 
 
 class User:
     '''A class to represent a user with various attributes.
@@ -8,11 +10,17 @@ class User:
         name (str): The name of the user.
         email (str): The email of the user.
         password (str): The password of the user.
-        income (float): The monthly income of the user.
+        income (float): The periodical income of the user.
         funds (float): The current funds available to the user.
         pay_schedule (str): The payment schedule (Monthly, Biweekly, or Weekly).
     '''
     
+    PAY_INTS = {
+        "Monthly": relativedelta(months=1),
+        "Biweekly": relativedelta(weeks=2),
+        "Weekly": relativedelta(weeks=1)
+    }
+
     def __init__(self, name: str = "user", email: str = "", password: str = "password",
                  income: float = 0.0, funds: float = 0.0, pay_schedule: int = 0):
         '''Initializes a User object with default attributes if none are provided.
@@ -23,7 +31,8 @@ class User:
             password (str): The password of the user.
             income (float): The monthly income of the user.
             funds (float): The current funds available to the user.
-            pay_schedule (int): The payment schedule in days.
+            pay_schedule (str): The payment schedule(Monthly, Biweekly, or Weekly).
+            last_pay_date: (date): The date of last pay day
         '''
         self.name = name
         self.email = email
@@ -31,6 +40,7 @@ class User:
         self.income = income
         self.funds = funds
         self.pay_schedule = pay_schedule
+        self.last_pay_date = dt.now()
 
     def set_username(self, username: str):
         '''Sets the username of the user.
@@ -82,6 +92,18 @@ class User:
         '''
         return self.funds
 
+    def update_funds(self):
+        '''Updates funds based on income and last pay date'''
+        today = dt.now()
+        next_pay_date = self.last_pay_date + User.PAY_INTS[self.pay_schedule]
+        caught_up = next_pay_date > today
+        while not caught_up:
+            self.last_pay_date = next_pay_date
+            self.funds += self.income
+
+            next_pay_date += User.PAY_INTS[self.pay_schedule]
+            caught_up = next_pay_date > today
+
     def __str__(self):
         '''Returns a string representation of the user.
 
@@ -95,13 +117,14 @@ class User:
                 f"Funds: ${self.funds:.2f}\n"
                 f"Pay Schedule: Every {self.pay_schedule} days")
     
-        return f"~|{'Username': ^14}|{'email': ^20}|{'password': ^20}|{'Income': ^12}|{'Funds': ^12}|{'Pay Schedule': ^12}|~\n||{self.name: ^14}|{self.email: ^20}|{'*' * len(self.password): ^20}|{self.income: ^12}|{self.funds: ^12}|{self.pay_schedule: ^12}||"
+        return f"~|{'Username': ^14}|{'email': ^20}|{'password': ^20}|{'Income': ^12}|{'Funds': ^12}|{'Pay Schedule': ^12}|{'Last Pay Day': ^15}|~\n||{self.name: ^14}|{self.email: ^20}|{'*' * len(self.password): ^20}|{self.income: ^12}|{self.funds: ^12}|{self.pay_schedule: ^12}|{self.last_pay_date.strftime(r'%x'): ^15}||"
     
     def to_json(self):
         '''
         Returns user object in json string representation 
         '''
         # Objects attributes stored in dictionary
+        last = self.last_pay_date
         attr_dict = {
             "name": self.name,
             "email": self.email,
@@ -109,6 +132,7 @@ class User:
             "income": self.income,
             "funds": self.funds,
             "pay_schedule": self.pay_schedule,
+            "last_pay_date": [last.strftime("%Y"), last.strftime("%m"), last.strftime('%d')]
         }
 
         json_format = json.dumps(attr_dict, indent=4)
@@ -130,6 +154,9 @@ class User:
         obj.income = attr_dict["income"]
         obj.funds = attr_dict["funds"]
         obj.pay_schedule = attr_dict["pay_schedule"]
+
+        last = attr_dict["last_pay_date"]
+        obj.last_pay_date = dt.date(int(last[0]), int(last[1]), int(last[2]))
         
         return obj
     
@@ -166,6 +193,7 @@ class User:
                 new_user.pay_schedule = "Weekly"
     
         new_user.income = help.validate_input(0.0, "What is your expected income for every pay period?(If paid weekly, expected payment after every week): $", pos=True)
+        new_user.income = help.validate_date("When was the last time you were paid?(MM-DD-YYYY): ", max_date=dt.now())
 
         return new_user
 
