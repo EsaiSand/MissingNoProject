@@ -1,7 +1,7 @@
-from classes.user_manager import UserManager
-from classes.user import User
-from classes.debt import Debt
-import classes.helpers as help
+from user_manager import UserManager
+from user import User
+from debt import Debt
+import helpers as help
 import json
 
 def login(users, user_name, user_password,):
@@ -24,16 +24,8 @@ def login(users, user_name, user_password,):
 
 #The main function of the program
 def main():
-  '''Main function of the program. What runs the full code'''
-  new_user = UserManager.startup()
-  if new_user == 1:
-    username = help.validate_input(str(), "Enter a Username: ")
-    email = help.validate_input(str(), "Enter an Email Address: ")
-    password = help.validate_input(str(), "Enter a Password: ")
-
-
-  print(Debt())
-
+  # '''Main function of the program. What runs the full code'''
+  pass
 
 if __name__ == "__main__":
   main()

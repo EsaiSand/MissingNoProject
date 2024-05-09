@@ -1,6 +1,6 @@
 import json
 from datetime import datetime as dt
-from .._dependencies.dateutil.relativedelta import relativedelta
+from dateutil.relativedelta import relativedelta
 import helpers as help
 
 class Subscription:

@@ -1,4 +1,4 @@
-from classes.debt import Debt
+from debt import Debt
 from expense import Expense
 from ingredient import Ingredients
 from meal import Meal
