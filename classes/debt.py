@@ -1,5 +1,4 @@
-import datetime as dt
-from datetime import datetime
+from datetime import datetime as dt
 from datetime import timedelta as td
 from dateutil.relativedelta import relativedelta  
 import json
@@ -39,8 +38,8 @@ class Debt:
         self.interest = 0.0
         self.is_compound = True
         self.int_period = "Monthly"
-        self.start_date = dt.datetime.now()
-        self.last_inc = dt.datetime.now()
+        self.start_date = dt.today()
+        self.last_inc = dt.today()
         Debt.DEBT_COUNT += 1
 
     def set_interest(self, new_interest):
@@ -62,7 +61,7 @@ class Debt:
         next_date = self.last_inc + Debt.INTERVAL_DELTAS[self.int_period]
 
         # Increases debt while "next" interest date has already passed
-        while(next_date < dt.datetime.now()):
+        while(next_date < dt.today()):
             self.amount += self.amount*self.interest
             self.last_inc = next_date
             next_date += Debt.INTERVAL_DELTAS[self.int_period]
@@ -78,7 +77,7 @@ class Debt:
         next_date = self.last_inc + Debt.INTERVAL_DELTAS[self.int_period]
 
         while(next_date < due_date):
-            estimate += estimate*self.interest
+            estimate += estimate*self.interest - periodic_payment
             next_date += Debt.INTERVAL_DELTAS[self.int_period]
 
         return estimate
@@ -134,10 +133,10 @@ class Debt:
         new_debt.int_period = attr_dict["int_period"]
 
         start = attr_dict["start_date"]
-        new_debt.start_date = dt.datetime.date(int(start[0]), int(start[1]), int(start[2]))
+        new_debt.start_date = dt.date(int(start[0]), int(start[1]), int(start[2]))
 
         last = attr_dict["last_inc"]
-        new_debt.last_inc = dt.datetime.date(int(last[0]), int(last[1]), int(last[2]))
+        new_debt.last_inc = dt.date(int(last[0]), int(last[1]), int(last[2]))
 
         return new_debt
     
@@ -156,7 +155,7 @@ class Debt:
         new_debt.is_compound = int_types[help.validate_input("d", "What type of interest is it?('compound' or 'principal'): ", valids=["compound", "principal"])]
         new_debt.int_period = Debt.VALID_INTERVALS[help.validate_input(1, "Select the debt's interest period:\n1. Yearly\n2. Monthly\n3. Biweekly\n4. Weekly\nSelection: ", valids=[1,2,3,4])-1]
         new_debt.last_inc = help.validate_date("When was interest last applied?(Use MM-DD-YYYY format): ")
-        new_debt.start_date = dt.datetime.now()
+        new_debt.start_date = dt.now()
     
         return new_debt
 

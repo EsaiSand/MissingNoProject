@@ -1,25 +1,72 @@
 import json
+from datetime import datetime as dt
+from dateutil.relativedelta import relativedelta
+import helpers as help
+
 class Subscription:
     '''
     Attributes:
-        subscription_name: str
-        cost: float
-        one_time_payment: float
-        pay_period: str
+        subscription_name(str): Name of subscription
+        cost(float): Cost of subscription
+        once_yearly_cost(float): Holds cost of additional yearly fee for subscription if applicable
+        pay_period(str): Describes the recurrance of subscription (Monthly or Anually)
+        last_charge(date): Holds date obj of last time subscription was charged
+        last_yearly : Holds date obj of last time annual fee was charged (If applicable)
     '''
+
+    CHARGE_INTS = {
+        'Monthly': relativedelta(months=1),
+        'Yearly': relativedelta(years=1)
+    }
+
     def __init__(self):
         '''Creates the subscription object'''
         self.subscription_name = ' ' 
         self.cost = 0
-        self.one_time_payment= 0
-        self.pay_period = ''
+        self.once_yearly_cost= 0
+        self.pay_period = 'Monthly'
+        self.last_charge = dt.today()
+        self.last_yearly  = dt.today()
         
     def __str__(self):
-        info =  "Subscription: " + self.subscription_name +"\nCost: "+ str(self.cost) + "\nOne time payment: "+ str(self.one_time_payment) + "\nPay period: " + self.pay_period
-        return f"~|Subscription   |Cost        |Pay Period     |~\n||{self.subscription_name: ^15}|{self.cost: ^12}|{self.pay_period: ^15}||"
+        yearly_date = ''
+        yearly_cost = self.once_yearly_cost
+        if self.once_yearly_cost == 0:
+            yearly_date = "N/A"
+            yearly_cost = "N/A"
+        else: 
+            yearly_date = self.last_yearly .strftime(r'%x')
+
+        return f"~|{'Subscription': ^15}|{'Cost': ^12}|{'Annual Fee': ^12}|{'Pay Period': ^15}|{'Last Payment': ^15}|{'Last Annual Fee': ^15}|~\n||{self.subscription_name: ^15}|{self.cost: ^12}|{yearly_cost: ^12}|{self.pay_period: ^15}|{self.last_charge.strftime(r'%x'): ^15}|{yearly_date: ^15}||"
     
+    def calc_fees_since_last_charge(self):
+        total = 0.0
+        next_common = self.last_charge + Subscription.CHARGE_INTS[self.pay_period]
+        next_yearly = self.last_yearly + relativedelta(years=1)
+        while next_common < dt.today():
+            if next_yearly < dt.today():
+                total += self.once_yearly_cost
+                self.last_yearly = next_yearly
+                next_yearly += relativedelta(years=1)
+
+            total += self.cost
+            self.last_charge = next_common
+            next_common += Subscription.CHARGE_INTS[self.pay_period]
+        
+        return total
+
     def to_json(self):
-        return json.dumps(self.__dict__)
+        last = self.last_charge
+        lasty = self.last_yearly
+        attr_dict = {
+            'name': self.subscription_name,
+            'cost': self.cost,
+            'Once Yearly': self.once_yearly_cost,
+            'Period': self.pay_period,
+            'Last paid': [last.strftime("%Y"), last.strftime("%m"), last.strftime('%d')],
+            'Last yearly': [lasty.strftime("%Y"), lasty.strftime("%m"), lasty.strftime('%d')]
+        }
+        return json.dumps(attr_dict, indent=4)
 
     
     def set_subscription(self, subscription_name: str):
@@ -56,7 +103,6 @@ class Subscription:
                 valid = True
         return self.subscription_name, self.cost
             
-
     def set_pay_period(self,pay_period: str):
         '''Setting and validating the pay period'''
        #checking validity of the information inputted 
@@ -91,9 +137,9 @@ class Subscription:
                 one_time_payment = input("Enter a valid payment value   ")
             else:
                 valid = True
-                self.one_time_payment = one_time_payment
+                self.once_yearly_cost = one_time_payment
                 
-        return self.one_time_payment
+        return self.once_yearly_cost
     
     @staticmethod
     def from_json(json_string):
@@ -104,34 +150,39 @@ class Subscription:
         
         obj = Subscription()
         
-        obj.subscription_name = attr_dict["Subscription Name"]
-        obj.cost = attr_dict["Subscription Cost"]
-        obj.one_time_payment = attr_dict["One time payment"]
-        obj.pay_period = ["Pay Period"]
+        obj.subscription_name = attr_dict["name"]
+        obj.cost = attr_dict["cost"]
+        obj.once_yearly_cost = attr_dict["Once Yearly"]
+        obj.pay_period = attr_dict["Period"]
+        last = attr_dict["Last paid"]
+        obj.last_charge = dt(int(last[0]), int(last[1]), int(last[2]))
+        lasty = attr_dict["Last yearly"]
+        obj.last_yearly = dt(int(lasty[0]), int(lasty[1]), int(lasty[2]))
         
         return obj
         
     @staticmethod
     def create():
         '''Static method of the class used to create an instance of the class while prompting the user'''
-        sub = Subscription()
-        name = input("\nEnter the name of your subscription: ")
-        sub.set_subscription(name)
-        date = input("\nEnter the expense date (YYYY-MM-DD): ")
-        sub.set_pay_period(date)
-        payment = input("\nEnter the one time payment ")
-        sub.set_one_time_payment(payment)
+        sub = Subscription() 
+        sub.subscription_name = input("Subscription name: ")
+        sub.cost = help.validate_input(0.0, "What is the subscription's recurring fee? Ignore additional yearly cost if applicable: $", pos=True)
+        sub.last_charge = help.validate_date("When was the subscription last charge? Ignore yearly fee charge if applicable.\n(folow MM-DD-YYYY format): ")
+        
+        choice = help.validate_input("s", "Does the subscription have an additional annual fee? (y/n): ", valids=['y', 'n'])
+        if choice == 'y':
+            sub.once_yearly_cost = help.validate_input(0.0, "How much is the annual fee?: $", pos=True)
+            sub.last_yearly = help.validate_date("When was the annual fee last charged?: ")
+
+        print(sub)
         return sub
         
-        
-        
-
 def main():
     #Create a subscription object
     # sub = Subscription.create()
 
-    print(Subscription())
-    
+    Subscription.create()
+
     # #Menu
     # while True:
     #     print("\nSelect one")
