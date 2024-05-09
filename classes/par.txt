@@ -1,0 +1,12 @@
+users: {
+  "User 1": 
+  {
+    "User": (user.to_jason()),
+    "Debts": [(debt.to_jason(), )],
+  }, 
+  
+  "User 2":
+  {
+
+  },
+}

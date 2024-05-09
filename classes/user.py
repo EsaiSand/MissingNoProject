@@ -1,7 +1,7 @@
 import json
 import helpers as help
 from datetime import datetime as dt
-from dateutil.relativedelta import relativedelta 
+from .._dependencies.dateutil.relativedelta import relativedelta 
 
 class User:
     '''A class to represent a user with various attributes.

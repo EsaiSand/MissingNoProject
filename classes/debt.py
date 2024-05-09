@@ -1,6 +1,6 @@
 from datetime import datetime as dt
 from datetime import timedelta as td
-from dateutil.relativedelta import relativedelta  
+from .._dependencies.dateutil.relativedelta import relativedelta 
 import json
 import re
 import helpers as help
@@ -170,11 +170,7 @@ def main():
     # print(debt)
 
     x = Debt.create()
-    y = Debt()
-    print(x.last_inc.strftime(r"%x"))
-    print(y.last_inc.strftime(r"%x"))
-    print(y)
-    print(x)
+    print(x.to_json())
 
 if __name__ == "__main__":
     main()
