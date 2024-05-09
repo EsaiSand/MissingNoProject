@@ -15,7 +15,7 @@ def validate_input(correct_type, question, regex=r"", valids=[], pos=True):
         user_input = input(question)
         cast = type(correct_type)
 
-        # Checks for proper string formatting is regex provided
+        # Checks for proper string formatting if regex provided
         if regex != "":
             if re.search(regex, user_input):
                 validated = True
@@ -25,14 +25,13 @@ def validate_input(correct_type, question, regex=r"", valids=[], pos=True):
                 if type(correct_type) == type("string"):
                     continue
             else:
-                print("Invalid input")
+                print("Invalid input, try again\n")
                 continue
                 
         # Ensures user input is of proper type
         if(type(user_input) != type(correct_type)):
             try:
                 user_input = cast(user_input)
-                validated = True    # Succseful cast, assume we're done at this point
 
                 # If cast was to number, validate if negatives allowed based on pos
                 if (cast == type(1) or cast == type(1.0)) and pos == True:
@@ -40,9 +39,11 @@ def validate_input(correct_type, question, regex=r"", valids=[], pos=True):
                 # If we have a list of valids to check against, not done yet
                 if len(valids) == 0:
                     validated = True
+                else:
+                    validated = False
 
             except ValueError:
-                print("Invalid input, try again")
+                print("Invalid input, try again\n")
                 validated = False
                 continue
 
@@ -51,8 +52,7 @@ def validate_input(correct_type, question, regex=r"", valids=[], pos=True):
             if user_input in valids:
                 validated = True
             else:
-                print("Invalid input, try again")
-        validated = True
+                print("Invalid input, try again\n")
                 
     return user_input
 
@@ -89,20 +89,20 @@ def validate_date(question, max_date=dt.today(), min_date=dt(1900,1,1)):
                 date = dt(year, month, day)
                 user_input = date
             except ValueError:
-                print("Invalid date: This date does not exist, try again")
+                print("Invalid date: This date does not exist, try again\n")
 
             # Checks that date is within bounds
             if date > max_date:
-                print(f"Invalid date: Pick a date before {max_date.strftime(r'%x')}")
+                print(f"Invalid date: Pick a date before {max_date.strftime(r'%x')}\n")
             elif date < min_date:
-                print(f"Invalid date: Pick a date after {min_date.strftime(r'%x')}")
+                print(f"Invalid date: Pick a date after {min_date.strftime(r'%x')}\n")
             else:
                 validated = True
             
 
             continue
         else:
-            print("Invalid input, try again")
+            print("Invalid input, try again\n")
             continue
     
     return user_input

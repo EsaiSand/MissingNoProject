@@ -93,6 +93,7 @@ class UserManager:
     new_userman.subcriptions = attr_dict["Subscriptions"]
     new_userman.meals = attr_dict["Meals"]
     new_userman.ingredients = attr_dict["Ingredients"]
+    Expense.CATEGORIES = attr_dict["Expense Categories"]
 
     return new_userman
 

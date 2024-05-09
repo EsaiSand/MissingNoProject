@@ -12,6 +12,8 @@ class Expense:
         categories (list): A list of possible expense categories.
     '''
     
+    CATEGORIES = ["Bills", "Food", "Other"]
+
     def __init__(self):
         '''Initialize an Expense object with default values.'''
         self.name = ''

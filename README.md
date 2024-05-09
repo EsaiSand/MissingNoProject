@@ -1,1 +1,1 @@
-This is a work in progress rn
+To run project, run MissingNoProject/classes/main.py
