@@ -96,6 +96,36 @@ class UserManager:
     Expense.CATEGORIES = attr_dict["Expense Categories"]
 
     return new_userman
+  
+  def create_obj(self, obj):
+    '''
+    passes in an object type and create an object based what object is passed to it
+    '''
+    """
+    What would you like to do?
+    > create obj
+    > update obj
+    > remove obj
+
+    if create obj:
+      obj.create()
+    elif update obj:
+      obj.update
+    else:
+      remove object from self.obj list
+    """
+
+    inpt = help.validate_input(0, "What would you like to do? \n1. Create \n2. Update \n3.remove", valids=[1,2,3])
+    if inpt == 1:
+      obj().create()
+    #this will need to be set, not update. Don't know if this one will work either, This might be used in main
+    if inpt == 2:
+      obj().update()
+    #Idk if this works
+    if inpt == 3:
+      for obj in self.obj:
+        self.obj.remove(obj)
+
 
 if __name__ == "__main__":
     main()
