@@ -12,7 +12,6 @@ def boot_up(users, user_name, user_password,):
   '''Function to start running program'''
   # Loads data from text file
   data_string = open("../data/data.txt").read()
-  users = {}
   manager = UserManager()
 
   print("--------------------Welcome to Budget Manager--------------------\n\nAt any point, type to 'back' to go back if selection not available\n")
@@ -34,10 +33,61 @@ def boot_up(users, user_name, user_password,):
       handle_user(manager)
   
   # Saving user data when quitting
-  save_user(manager, user_num)
+  save_user(manager, user_num, data_string)
 
-def save_user(u_manager, u_num):
-  pass
+def save_user(u_manager, u_num, old_data_str):
+  '''Stores complete user data and updates user_manager defined by u_num with u_manager
+  u_manager: User manger that has been open and potentially edited
+  u_num: Position of u_manager in mega data
+  old_data_str: json_string of mega data before u_manager was opened and maybe changed
+  '''
+  # Creates complete user dict from old_data_str
+  users_dict = json.loads(old_data_str)
+  users_managers = [] # Will be list of fully instantiated user mangers defined in storage
+
+  # For each user stored in data, create corresponding user manger
+  for user in users_dict:
+    manager = UserManager()
+    manager_instance_dict = UserManager.from_json(users_dict[user])
+    manager.user = User.from_json(manager_instance_dict["User"])
+
+    # Creating Debt objects from data
+    debts_list = json.loads(manager_instance_dict["Debts"])
+    for debt_string in debts_list:
+      new_debt = Debt.from_json(debt_string)
+      manager.debts.append(new_debt)
+
+    # Creating Expense objects from data
+    expenses_list = json.loads(manager_instance_dict["Expenses"])
+    for expense_string in expenses_list:
+      new_expense = Expense.from_json(expense_string)
+      manager.expenses.append(new_expense)
+
+    # Creating Subscriptions objects from data
+    subs_list = json.loads(manager_instance_dict["Subscriptions"])
+    for sub_string in subs_list:
+      new_sub = Subscription.from_json(sub_string)
+      manager.subcriptions.append(new_sub)
+
+    # Creating Meals objects from data
+    meals_list = json.loads(manager_instance_dict["Meals"])
+    for meal_string in meals_list:
+      new_meal = Meal.from_json(meal_string)
+      manager.meals.append(new_meal)
+
+    # Creating Ingredient objects from data
+    ingrs_list = json.loads(manager_instance_dict["Ingredients"])
+    for ing_string in ingrs_list:
+      new_ingr = Ingredients.from_json(ing_string)
+      manager.ingredients.append(new_ingr)
+
+    # Append user manager to list of user managers
+    users_managers.append(manager)
+
+  # Now have a list of fully developed user managers
+  meta_json = ''
+  for i in range(len(users_managers)):
+    if i == u_num 
 
 def login(data_str):
   '''Attempts login and when valid, returns corrseponding user_manager'''
@@ -56,6 +106,7 @@ def login(data_str):
     for user in user_managers_dict:
       # Creating dictionary representing user instance (contains User, Debts, Subs, ...)
       user_data_string = user_managers_dict[user]
+      user_manager_instance = UserManager.from_json(user_data_string)
       users_dict = User.from_json(user_data_string)
       total_users += 1
       # Creating user objects from data and appends to user list
@@ -135,6 +186,7 @@ def login(data_str):
   # return valid_user
   
 def create_user_manager():
+  '''Creates new user manager instance by first instantiating User'''
   new_manager = UserManager()
   new_manager.user = User.create()
   return new_manager
