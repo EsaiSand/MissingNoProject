@@ -196,8 +196,8 @@ class Subscription:
 def main():
     #Create a subscription object
     # sub = Subscription.create()
-    x = subscription
-    x.edit_menu():
+    x = Subscription()
+    x.edit_menu()
     Subscription.create()
 
     # #Menu
