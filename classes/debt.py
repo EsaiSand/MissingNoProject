@@ -186,7 +186,7 @@ class Debt:
 def main():
     # x = relativedelta(months=1)
     # print(x)
-    x = debt
+    x = Debt
     x.edit_menu()
     # debt = Debt()
     # debt.last_inc -= Debt.INTERVAL_DELTAS["Monthly"]
