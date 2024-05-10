@@ -17,7 +17,7 @@ class UserManager:
     self.user = User()
     self.debts = []
     self.expenses = []
-    self.subcriptions = []
+    self.subscriptions = []
     self.meals = []
     self.ingredients = []
     self.spending_limit = 0.0
@@ -46,7 +46,7 @@ class UserManager:
   def list_subs(self):
     count = 0
     info = ""
-    for sub in self.subcriptions:
+    for sub in self.subscriptions:
       sub_str = ""
       if(count == 0):
         sub_str = str(sub)
@@ -165,7 +165,7 @@ class UserManager:
 
     lst_subcriptions = attr_dict["Subscriptions"]
     for subscriptions in lst_subcriptions:
-      new_userman.subcriptions.append(Subscription().from_json(subscriptions))
+      new_userman.subscriptions.append(Subscription().from_json(subscriptions))
 
     lst_meals = attr_dict["Meals"]
     for meal in lst_meals:
@@ -195,6 +195,66 @@ class UserManager:
       return f"Your budget was ${self.spending_limit}. \nYou spent ${total_spending - self.spending_limit} over budget!"
     else:
       return f"Your budget was ${self.spending_limit}. \nYou spent ${total_spending - self.spending_limit} under budget!"
+    
+  def debt_menu(self):
+    '''creates a menu to select and call different debt menus options'''
+
+    print("Here is a list of all debt records:")
+    for i in range(len(self.debts[i])):
+      print(f"{i+1}. {self.debts[i]}")
+    
+    print("What would you like to do? \n1. create. \n2. edit \n3. delete")
+    options = help.validate_input(0, "Please select an option (1/2): ", valids=[1,2,3])
+
+    #add
+    if options == 1:
+      self.debts.append(Debt.create())
+    
+    #edit
+    if options == 2:
+      print("which debt record would you like to edit?")
+      choice = help.validate_input(0, "Pick a number from the list of debts: " , range(1 , len(self.debts) + 1))
+      self.debts[choice - 1].edit_menu()
+
+    #delete
+    if options == 3:
+      print("Which debt record would you like to delete?")
+      choice = help.validate_input(0, "Pick a number from the list of debts: " , range(1 , len(self.debts) + 1))
+      check = help.validate_input('a', "are you sure?: (y/n)", valids=['y','n'])
+      if check.lower() == 'y':
+        self.debts.pop(choice-1)
+      else:
+        self.debt_menu()
+
+  def sub_menu(self):
+    '''creates a menu to select and call different subcription menus options'''
+     
+    print("Here is a list of all current subscriptions:")
+    for i in range(len(self.subscriptions[i])):
+      print(f"{i+1}. {self.subscriptions[i]}")
+    
+    print("What would you like to do? \n1. create. \n2. edit \n3. delete")
+    options = help.validate_input(0, "Please select an option (1/2/3): ", valids=[1,2,3])
+
+    #add
+    if options == 1:
+      self.subscriptions.append(Subscription.create())
+
+    #edit
+    if options == 2:
+      print("which subscription record would you like to edit?")
+      choice = help.validate_input(0, "Pick a number from the list of subscriptions: " , range(1 , len(self.subscriptions) + 1))
+      self.subscriptions[choice - 1].edit_menu()
+
+    #remove
+    if options == 3:
+      print("Which subscription record would you like to delete?")
+      choice = help.validate_input(0, "Pick a number from the list of subscriptions: " , range(1 , len(self.subscriptions) + 1))
+      check = help.validate_input('a', "are you sure?: (y/n)", valids=['y','n'])
+      if check.lower() == 'y':
+        self.subscriptions.pop(choice-1)
+      else:
+        self.sub_menu()
 
 def main():
   pass

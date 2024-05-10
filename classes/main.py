@@ -67,7 +67,7 @@ def save_user(u_manager, u_num, old_data_str):
     subs_list = json.loads(manager_instance_dict["Subscriptions"])
     for sub_string in subs_list:
       new_sub = Subscription.from_json(sub_string)
-      manager.subcriptions.append(new_sub)
+      manager.subscriptions.append(new_sub)
 
     # Creating Meals objects from data
     meals_list = json.loads(manager_instance_dict["Meals"])
@@ -146,7 +146,7 @@ def login(data_str):
             subs_list = json.loads(users_dict["Subscriptions"])
             for sub_string in subs_list:
               new_sub = Subscription.from_json(sub_string)
-              manager.subcriptions.append(new_sub)
+              manager.subscriptions.append(new_sub)
 
             # Creating Meals objects from data
             meals_list = json.loads(users_dict["Meals"])
