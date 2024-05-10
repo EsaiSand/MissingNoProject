@@ -117,7 +117,7 @@ class User:
                 f"Funds: ${self.funds:.2f}\n"
                 f"Pay Schedule: Every {self.pay_schedule} days")
     
-        return f"~|{'Username': ^14}|{'email': ^20}|{'password': ^20}|{'Income': ^12}|{'Funds': ^12}|{'Pay Schedule': ^12}|{'Last Pay Day': ^15}|~\n||{self.name: ^14}|{self.email: ^20}|{'*' * len(self.password): ^20}|{self.income: ^12}|{self.funds: ^12}|{self.pay_schedule: ^12}|{self.last_pay_date.strftime(r'%x'): ^15}||"
+        return f"~|{'Username': ^14}|{'email': ^20}|{'password': ^20}|{'Income': ^12}|{'Funds': ^12}|{'Pay Schedule': ^12}|{'Last Pay Day': ^15}|~\n||{self.name: ^14}|{self.email: ^20}|{'*' * len(self.password): ^20}|{self.income: ^12}|{self.funds: ^12}|{self.pay_schedule: ^12}|{self.last_pay_date.strftime(r'%x'): ^15}||\n"
     
     def to_json(self):
         '''

@@ -37,7 +37,7 @@ class Subscription:
         else: 
             yearly_date = self.last_yearly .strftime(r'%x')
 
-        return f"~|{'Subscription': ^15}|{'Cost': ^12}|{'Annual Fee': ^12}|{'Pay Period': ^15}|{'Last Payment': ^15}|{'Last Annual Fee': ^15}|~\n||{self.subscription_name: ^15}|{self.cost: ^12}|{yearly_cost: ^12}|{self.pay_period: ^15}|{self.last_charge.strftime(r'%x'): ^15}|{yearly_date: ^15}||"
+        return f"~|{'Subscription': ^15}|{'Cost': ^12}|{'Annual Fee': ^12}|{'Pay Period': ^15}|{'Last Payment': ^15}|{'Last Annual Fee': ^15}|~\n||{self.subscription_name: ^15}|{self.cost: ^12}|{yearly_cost: ^12}|{self.pay_period: ^15}|{self.last_charge.strftime(r'%x'): ^15}|{yearly_date: ^15}||\n"
     
     def calc_fees_since_last_charge(self):
         total = 0.0
