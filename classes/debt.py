@@ -160,6 +160,9 @@ class Debt:
     
         return new_debt
 
+    def edit_menu():
+        print()
+
 def main():
     # x = relativedelta(months=1)
     # print(x)

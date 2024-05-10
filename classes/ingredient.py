@@ -73,14 +73,27 @@ class Ingredients:
 
         return ingre
 
+    def edit_menu(self):
+        menu_string = f"Editing Ingredient {self.name}\n\n1. Change name\n2. Change price for serving\n3. Change calorie count per serving\n4. Back\nSelection: "
+        
+        while True:
+            choice = help.validate_input(1, menu_string, valids=[1,2,3,4])
+
+            if choice == 1:
+                # Changing Name
+                self.name = input("Enter new name: ")
+            if choice == 2:
+                self.price = help.validate_input(0.0, "Enter new price per serving: ")
+            if choice == 3:
+                self.calories = help.validate_input(1, "Enter new calorie count per serving")
+            if choice == 4:
+                return
+
 def main():
     #Create a subscription object
-    ingredient = Ingredients.create()
-    
-    json_string = ingredient.to_json()
-    print(json_string)
-    print("\n")
-    print(ingredient)
+    x = Ingredients()
+
+    x.edit_menu()
             
 if __name__ == "__main__":
     main()

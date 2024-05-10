@@ -166,24 +166,6 @@ def login(data_str):
         
         # When through all of users without finding matching username
         print("Username does not exist!\n")  
-              
-
-  users_dict = json.loads(data_string)
-  print(type(users_dict))
-
-  # #gets list of users from json file
-  # users = User.from_json()
-
-  # #checks if user is valid
-  # for i in range(len(users)):
-
-  #   #if user is valid:
-  #   if ( (user_name == users[i].username) and (user_password == users[i].password)):
-  #     valid_user = users[i]
-  #     break
-
-  # #returns a the user object that is the valid user 
-  # return valid_user
   
 def create_user_manager():
   '''Creates new user manager instance by first instantiating User'''
