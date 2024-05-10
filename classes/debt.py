@@ -160,8 +160,10 @@ class Debt:
     
         return new_debt
 
-    def edit_menu():
-        print()
+    def edit_menu(self):
+        menu_string = f"Editing Debt {self.name}\n\n1. change Debt name\n2. Change initial loan amount\n3. Change how much Debt is owed\n4. Change debt interest rate\n5.  Change the type of interest\n6. Change the debt's interest period\n7. Change when Debt was last applied\n8. Change Debt Start date\n9. Back\nSelection: "
+        while True:
+            choice = help.validate_input(1, menu_string, valids=[1,2,3,4,5,6,7,8,9])
 
 def main():
     # x = relativedelta(months=1)
