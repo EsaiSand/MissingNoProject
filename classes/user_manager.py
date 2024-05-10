@@ -142,5 +142,8 @@ class UserManager:
         self.obj.remove(obj)
 
 
+def main():
+  pass
+
 if __name__ == "__main__":
     main()
