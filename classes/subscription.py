@@ -176,11 +176,28 @@ class Subscription:
 
         print(sub)
         return sub
-        
+    def edit_menu(self):
+        menu_string = f"Editing subscriptions {self.name}\n\n1. Change subscription name\n2. Change subscription's recurring fee\n3. Change last subscription cost\n4.  Change suncription additional annual fee\n5. Change the annual fee\n6. Change when the annual was last charged\n7. Back\n Selections: "
+        while True:
+            choice = help.validate_input(1, menu_string, valids=[1,2,3,4,5,6])
+            if choice == 1:
+                #Changing the Debt name
+                self.name = input("Enter new Subscription name:")
+            if choice == 2:
+                self.cost = help.validate_input(0.0, "Enter new  subscription's recurring fee: ")
+            if choice == 3:
+                self.last_charge = help.validate_date(0.0, "Enter new subscription charge date (folow MM-DD-YYYY format):")
+            if choice == 4:
+                self.once_yearly_cost =  help.validate_input("0.0", "Enter new  annual fee:")
+            if choice == 5:
+                self.last_yearly = help.validate_date(" Enter new annual fee last charged: ")
+            if choice == 6:
+                return
 def main():
     #Create a subscription object
     # sub = Subscription.create()
-
+    x = subscription
+    x.edit_menu():
     Subscription.create()
 
     # #Menu
