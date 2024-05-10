@@ -226,8 +226,38 @@ class UserManager:
       else:
         self.debt_menu()
 
-  def sub_menu(self):
-    '''creates a menu to select and call different subcription menus options'''
+  def expense_menu(self):
+    '''creates a menu to select and call different expense menus options'''
+    
+    print("Here is a list of all current expenses:")
+    for i in range(len(self.expenses[i])):
+      print(f"{i+1}. {self.expenses[i]}")
+    
+    print("What would you like to do? \n1. create. \n2. edit \n3. delete")
+    options = help.validate_input(0, "Please select an option (1/2/3): ", valids=[1,2,3])
+
+    #add
+    if options == 1:
+      self.expenses.append(Expense.create())
+
+    #edit
+    if options == 2:
+      print("which expense record would you like to edit?")
+      choice = help.validate_input(0, "Pick a number from the list of expenses: " , range(1 , len(self.expenses) + 1))
+      self.expenses[choice - 1].edit_menu()
+
+    #remove
+    if options == 3:
+      print("Which expense record would you like to delete?")
+      choice = help.validate_input(0, "Pick a number from the list of expenses: " , range(1 , len(self.expense) + 1))
+      check = help.validate_input('a', "are you sure?: (y/n)", valids=['y','n'])
+      if check.lower() == 'y':
+        self.expenses.pop(choice-1)
+      else:
+        self.expense_menu()
+
+  def subscription_menu(self):
+    '''creates a menu to select and call different subscription menus options'''
      
     print("Here is a list of all current subscriptions:")
     for i in range(len(self.subscriptions[i])):
@@ -254,7 +284,68 @@ class UserManager:
       if check.lower() == 'y':
         self.subscriptions.pop(choice-1)
       else:
-        self.sub_menu()
+        self.subscription_menu()
+
+  def meal_menu(self):
+    '''creates a menu to select and call different meal menus options'''
+     
+    print("Here is a list of all current meal: ")
+    for i in range(len(self.meals[i])):
+      print(f"{i+1}. {self.meals[i]}")
+    
+    print("What would you like to do? \n1. create. \n2. edit \n3. delete")
+    options = help.validate_input(0, "Please select an option (1/2/3): ", valids=[1,2,3])
+
+    #add
+    if options == 1:
+      self.meals.append(Meal.create())
+
+    #edit
+    if options == 2:
+      print("which meal record would you like to edit?")
+      choice = help.validate_input(0, "Pick a number from the list of meals: " , range(1 , len(self.meals) + 1))
+      self.meals[choice - 1].edit_menu()
+
+    #remove
+    if options == 3:
+      print("Which meal record would you like to delete?")
+      choice = help.validate_input(0, "Pick a number from the list of meals: " , range(1 , len(self.meals) + 1))
+      check = help.validate_input('a', "are you sure?: (y/n)", valids=['y','n'])
+      if check.lower() == 'y':
+        self.meals.pop(choice-1)
+      else:
+        self.meal_menu()
+
+  def ingredients_menu(self):
+    '''creates a menu to select and call different ingredient menu options'''
+     
+    print("Here is a list of all current ingriedients:")
+    for i in range(len(self.ingredients[i])):
+      print(f"{i+1}. {self.ingredients[i]}")
+    
+    print("What would you like to do? \n1. create. \n2. edit \n3. delete")
+    options = help.validate_input(0, "Please select an option (1/2/3): ", valids=[1,2,3])
+
+    #add
+    if options == 1:
+      self.ingredients.append(Ingredients.create())
+
+    #edit
+    if options == 2:
+      print("which ingredient record would you like to edit?")
+      choice = help.validate_input(0, "Pick a number from the list of ingredients: " , range(1 , len(self.ingredients) + 1))
+      self.ingredients[choice - 1].edit_menu()
+
+    #remove
+    if options == 3:
+      print("Which ingredient record would you like to delete?")
+      choice = help.validate_input(0, "Pick a number from the list of ingredients: " , range(1 , len(self.ingredients) + 1))
+      check = help.validate_input('a', "are you sure?: (y/n)", valids=['y','n'])
+      if check.lower() == 'y':
+        self.ingredients.pop(choice-1)
+      else:
+        self.ingredients_menu()
+
 
 def main():
   pass
