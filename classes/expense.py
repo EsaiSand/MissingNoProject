@@ -114,8 +114,8 @@ class Expense:
         '''Static method of the class used to create an instance of the class while prompting the user'''
         expense = Expense()
 
-        expense.name = help.validate_input("d", "Expense name: ")
-        expense.category = help.validate_input("d", "Enter the category of this expense: ")
+        expense.name = input("Expense name: ")
+        expense.category = help.validate_input("d", f"Enter the category of this expense from following:{Expense.CATEGORIES} \n", valids=Expense.CATEGORIES)
         expense.add_category(expense.category)
         expense.cost = help.validate_input(0.0, "Enter the expense cost: $")
         expense.date = help.validate_date("When was the expense made?(MM-DD-YYYY): ")

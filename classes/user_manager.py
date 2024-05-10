@@ -348,7 +348,7 @@ class UserManager:
       count = 0
       for sub in self.subscriptions:
         count += 1
-        list_string += f"{count}. {sub.name}, ${sub.cost} paid {sub.pay_period}\n"
+        list_string += f"{count}.{sub.subscription_name}, ${sub.cost} paid {sub.pay_period}\n"
 
       #add
       if options == 1:

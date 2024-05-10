@@ -151,6 +151,7 @@ def create_user_manager(user_counts):
   '''Creates new user manager instance by first instantiating User'''
   new_manager = UserManager()
   new_manager.user = User.create()
+  new_manager.spending_limit = help.validate_input(0.0, "\nChoose your monthly spending limit")
   return [new_manager, user_counts]
 
 def handle_user(u_manager):

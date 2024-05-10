@@ -41,7 +41,7 @@ class Meal:
 
     def set_price(self):
         '''sets the price of the meals'''
-        for i in len(self.ingredients):
+        for i in range(len(self.ingredients)):
             self.price += self.ingredients[i].ingredient_price
         return self.price
 

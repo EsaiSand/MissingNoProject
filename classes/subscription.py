@@ -174,7 +174,6 @@ class Subscription:
             sub.once_yearly_cost = help.validate_input(0.0, "How much is the annual fee?: $", pos=True)
             sub.last_yearly = help.validate_date("When was the annual fee last charged?: ")
 
-        print(sub)
         return sub
     def edit_menu(self):
         menu_string = f"Editing subscriptions {self.name}\n\n1. Change subscription name\n2. Change subscription's recurring fee\n3. Change last subscription cost\n4.  Change suncription additional annual fee\n5. Change the annual fee\n6. Change when the annual was last charged\n7. Back\n Selections: "
