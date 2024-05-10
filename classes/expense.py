@@ -121,12 +121,25 @@ class Expense:
         expense.date = help.validate_date("When was the expense made?(MM-DD-YYYY): ")
 
         return expense
-        
-
+    def edit_menu(self):
+        menu_string =f"Editing expenses {self.name}\n\n1. Change Expense name\n2. Change Category of expense\n3. Change expense cost\n4. Change when expense was made (MM-DD-YYYY)\n5. Back\n Selection: "
+        while True:
+            choice = help.validate_input(1, menu_string, valids=[1,2,3,4,5])
+            if choice == 1:
+                # Changing Name
+                self.name = input("Enter new expense name: ")
+            if choice == 2:
+                self.category = help.validate_input("d", "Enter new  category of current expense: ")
+            if choice == 3:
+                self.cost = help.validate_input(0.0, "Enter new cost of expense:")
+            if choice == 4:
+                self.date = help.validate_date ( " Enter new expense date made (MM-DD-YYYY): ")
+            if choice == 5:
+                return
 def main():
     # Create an Expense object
     expense = Expense.create()
-    
+     x.edit_menu()
     
     # Menu loop
     # while True:
