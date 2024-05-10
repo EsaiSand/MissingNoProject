@@ -172,7 +172,7 @@ class Debt:
             if choice == 3:
                 self.amount = help.validate_input(0.0, "Enter new debt amount that is owed:")
             if choice == 4:
-                self.interest = help.validate_input(0.0< "Enter debts new interest Rate:")
+                self.interest = help.validate_input(0.0, "Enter debts new interest Rate:")
             if choice == 5:
                 self.is_compund = not self.is_compound
             if choice == 6:
