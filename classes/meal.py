@@ -86,12 +86,24 @@ class Meal:
         dood.ingredients = dood.add_ingredients()
         dood.price = dood.set_price()
         return dood
-        
-    
+    def edit_menu(self):
+        menu_string = f"Editing Meals {self.name}\n\n1. Change name of meal\n2. add ingredients\n3. Change price of meal\n4. Back\nSelection: "
+        while True:
+            choice = help.validate_input(1, menu_string, valids=[1,2,3,4,])
+            if choice == 1:
+                #Changing the Debt name
+                self.food = input("Enter new meal name:")
+            if choice == 2:
+                self.ingredient = input(" Eneter new ingredient you  would  like to add   ")
+            if choice == 3:
+                self.price = help.validate_input(0.0, "Enter new of current meal:")
+            if choice == 4:
+            
 def main():
     #Create a subscription object
     meal = Meal.create()
-    
+    x = Meal
+    x.edit_menu
     
     json_string = meal.to_json()
     print(json_string)
