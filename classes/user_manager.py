@@ -49,23 +49,23 @@ class UserManager:
     #loops store all data object elements into a json list, which is stored
     debts_json = []
     for i in range(len(self.debts)):
-      debts_json[i].append(self.debt[i].to_json())
+      debts_json.append(self.debt[i].to_json())
 
     expenses_json = []
     for i in range(len(self.expenses)):
-      expenses_json[i].append(self.expenses[i].to_json())
+      expenses_json.append(self.expenses[i].to_json())
 
     subscriptions_json = []
     for i in range(len(self.subscriptions)):
-      subscriptions_json[i].append(self.expenses[i].to_json())
+      subscriptions_json.append(self.expenses[i].to_json())
 
     meals_json = []
     for i in range(len(self.meals)):
-      meals_json[i].append(self.meals[i].to_json())
+      meals_json.append(self.meals[i].to_json())
 
     ingredients_json = []
     for i in range(len(self.ingredients)):
-      ingredients_json[i].append(self.ingredients[i].to_json())
+      ingredients_json.append(self.ingredients[i].to_json())
 
     #creates a dictionary of all the json strings and stores them in a dictionary
     attr_dict = {
@@ -87,13 +87,28 @@ class UserManager:
 
     new_userman = UserManager()
 
-    new_userman.user = attr_dict["User"]
-    new_userman.debts = attr_dict["Debts"]
-    new_userman.expenses = attr_dict["Expenses"]
-    new_userman.subcriptions = attr_dict["Subscriptions"]
-    new_userman.meals = attr_dict["Meals"]
-    new_userman.ingredients = attr_dict["Ingredients"]
-    Expense.CATEGORIES = attr_dict["Expense Categories"]
+    str_user = attr_dict["User"]
+    new_userman.user.from_json(str_user)
+
+    lst_debts = attr_dict["Debts"]
+    for debts in lst_debts:
+      new_userman.debts.append(Debt().from_json(debts))
+
+    lst_expenses = attr_dict["Expenses"]
+    for expenses in lst_expenses:
+      new_userman.expenses.append(Expense().from_json(expenses))
+
+    lst_subcriptions = attr_dict["Subscriptions"]
+    for subscriptions in lst_subcriptions:
+      new_userman.subcriptions.append(Subscription().from_json(subscriptions))
+
+    lst_meals = attr_dict["Meals"]
+    for meal in lst_meals:
+      new_userman.meals.append(Meal().from_json(meal))
+
+    lst_ingredients = attr_dict["Ingredients"]
+    for ingredient in lst_ingredients:
+      new_userman.ingredients.append(Ingredients().from_json(ingredient))
 
     return new_userman
   
