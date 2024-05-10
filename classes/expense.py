@@ -133,14 +133,14 @@ class Expense:
             if choice == 3:
                 self.cost = help.validate_input(0.0, "Enter new cost of expense:")
             if choice == 4:
-                self.date = help.validate_date ( " Enter new expense date made (MM-DD-YYYY): ")
+                self.date = help.validate_date ( "Enter new expense date made (MM-DD-YYYY): ")
             if choice == 5:
                 return
 def main():
     # Create an Expense object
     expense = Expense.create()
-     x = Expense()
-     x.edit_menu()
+    x = Expense()
+    x.edit_menu()
     
     # Menu loop
     # while True:

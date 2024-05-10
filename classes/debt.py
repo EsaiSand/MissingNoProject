@@ -161,27 +161,25 @@ class Debt:
         return new_debt
 
     def edit_menu(self):
-        menu_string = f"Editing Debt {self.name}\n\n1. change Debt name\n2. Change initial loan amount\n3. Change how much Debt is owed\n4. Change debt interest rate\n5.  Change the type of interest\n6. Change the debt's interest period\n7. Change when Debt was last applied\n8. Change Debt Start date\n9. Back\nSelection: "
+        menu_string = f"Editing Debt {self.name}\n\n1. change Debt name\n2. Change initial loan amount\n3. Change how much Debt is owed\n4. Change debt interest rate\n5.  Change the type of interest\n6. Change the debt's interest period\n7. Change when Debt was last applied\n8. Back\nSelection: "
         while True:
-            choice = help.validate_input(1, menu_string, valids=[1,2,3,4,5,6,7,8,9])
+            choice = help.validate_input(1, menu_string, valids=[1,2,3,4,5,6,7,8])
             if choice == 1:
                 #Changing the Debt name
                 self.name = input("Enter new Debt name:")
             if choice == 2:
                 self.prin_amt = help.validate_input(0.0, "Enter new Initial loan amount: ")
             if choice == 3:
-                self.amount = help.validate_input(0.0, "Enter new Debt that is owed:")
+                self.amount = help.validate_input(0.0, "Enter new debt amount that is owed:")
             if choice == 4:
-                self.interest = help.validate_input(0.0< "Enter new Debt's interest Rate:")
+                self.interest = help.validate_input(0.0< "Enter debts new interest Rate:")
             if choice == 5:
-                self.is_compund =  help.validate_input("d", "Enter new type  of interest:")
+                self.is_compund = not self.is_compound
             if choice == 6:
-                self.int_period = help.validate_input(1, " Enter new Debt's interest period: ")
+                self.int_period = Debt.VALID_INTERVALS[help.validate_input(1, "Select the debt's new interest period:\n1. Yearly\n2. Monthly\n3. Biweekly\n4. Weekly\nSelection: ", valids=[1,2,3,4])-1]
             if choice == 7:
-                self.last_inc = help.validate_date("Enter new Interest applied (Use MM-DD-YYYY format): ")
+                self.last_inc = help.validate_date("Enter new date for when interest last applied (Use MM-DD-YYYY format): ")
             if choice == 8:
-                 self.start_date = dt.now( "Enter new debt start date  (Use MM-DD-YYYY format:")
-            if choice == 9:
                 return
 def main():
     # x = relativedelta(months=1)
