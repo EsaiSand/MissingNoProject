@@ -24,26 +24,91 @@ class UserManager:
     self.meals = []
     self.ingredients = []
 
-  @staticmethod
-  def startup():
-    """
-    Prompts the User for login credentials or account creation to instantiate a user manager
-    """
-    print("Select one of the following:")
-    print("1. Create new account")
-    print("2. Login to existing account")
-    inpt = help.validate_input(0, "Selection(1/2): ", valids=[1,2])
+  def list_user(self):
+    info = str(self.user)
+
+  def list_debts(self):
+    count = 0
+    info = ""
+    for debt in self.debts:
+      debt_str = ""
+      if(count == 0):
+        debt_str = str(debt)
+      else:
+        debt_str = str(debt)
+        end_title = debt_str.find("||")
+        debt_str = debt_str[end_title:]
+
+      count += 1
+      info += debt_str
     
+    return info
+  
+  def list_subs(self):
+    count = 0
+    info = ""
+    for sub in self.subcriptions:
+      sub_str = ""
+      if(count == 0):
+        sub_str = str(sub)
+      else:
+        sub_str = str(sub)
+        end_title = sub_str.find("||")
+        sub_str = sub_str[end_title:]
 
-    # Account creation process
-    if inpt == 1:
-      user = User.create()
-      user.subscriptions = Subscription.create()
-    # Account login proccess
-    else:
-      pass
+      count += 1
+      info += sub_str
+    
+    return info
+  
+  def list_exps(self):
+    count = 0
+    info = ""
+    for exp in self.expenses:
+      exp_str = ""
+      if(count == 0):
+        exp_str = str(exp)
+      else:
+        exp_str = str(exp)
+        end_title = exp_str.find("||")
+        exp_str = exp_str[end_title:]
 
-  def user_storage(self):
+      count += 1
+      info += exp_str
+    
+    return info
+  
+  def list_meals(self):
+    count = 0
+    info = ""
+    for meal in self.meals:
+      meal_str = ""
+      if(count == 0):
+        meal_str = str(meal)
+      else:
+        meal_str = str(meal)
+        end_title = meal_str.find("||")
+        meal_str = meal_str[end_title:]
+
+      count += 1
+      info += meal_str
+
+  def list_ingrs(self):
+    count = 0
+    info = ""
+    for ingr in self.ingredients:
+      ingr_str = ""
+      if(count == 0):
+        ingr_str = str(ingr)
+      else:
+        ingr_str = str(ingr)
+        end_title = ingr_str.find("||")
+        ingr_str = ingr_str[end_title:]
+
+      count += 1
+      info += ingr_str
+
+  def to_json(self):
     '''Stores all user data (from each class) into a single file'''
 
     #loops store all data object elements into a json list, which is stored
@@ -80,7 +145,7 @@ class UserManager:
     return json_format
 
   @staticmethod
-  def get_user(json_string):
+  def from_json(json_string):
     '''grabs elements from json and and constructs/returns a usermanager object'''
     
     attr_dict = json.loads(json_string)
