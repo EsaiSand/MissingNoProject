@@ -188,7 +188,7 @@ class Subscription:
             if choice == 3:
                 self.last_charge = help.validate_date(0.0, "Enter new subscription charge date (folow MM-DD-YYYY format):")
             if choice == 4:
-                self.once_yearly_cost =  help.validate_input("0.0", "Enter new  annual fee:")
+                self.once_yearly_cost =  help.validate_input("0.0", "Enter new  annual fee:$")
             if choice == 5:
                 self.last_yearly = help.validate_date(" Enter new annual fee last charged: ")
             if choice == 6:
