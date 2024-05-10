@@ -89,7 +89,7 @@ class Meal:
     def edit_menu(self):
         menu_string = f"Editing Meals {self.name}\n\n1. Change name of meal\n2. add ingredients\n3. Change price of meal\n4. Back\nSelection: "
         while True:
-            choice = help.validate_input(1, menu_string, valids=[1,2,3,4,])
+            choice = help.validate_input(1, menu_string, valids=[1,2,3,4])
             if choice == 1:
                 #Changing the Debt name
                 self.food = input("Enter new meal name:")
@@ -98,6 +98,7 @@ class Meal:
             if choice == 3:
                 self.price = help.validate_input(0.0, "Enter new of current meal:")
             if choice == 4:
+                return 
             
 def main():
     #Create a subscription object
