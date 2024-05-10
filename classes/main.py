@@ -15,97 +15,110 @@ def boot_up(users, user_name, user_password,):
   users = {}
   manager = UserManager()
 
-  print("--------------------Welcome to Budget Manager--------------------\n\nAt any point, type to 'back' to go back\n")
+  print("--------------------Welcome to Budget Manager--------------------\n\nAt any point, type to 'back' to go back if selection not available\n")
   
+  manager = None
+  user_num = 0
+
   while True:
     choice = help.validate_input(1, "Select from the following:\n1. Log in\n2. Create new account\n3. Quit\nSelection: ", valids=[1,2,3])
 
     if choice == 1:
-      manager = login(data_string)
+      manager, user_num = login(data_string)
     if choice == 2:
-      create_user()
+      manager, user_num = create_user_manager()
     if choice == 3:
       break
+
+    if(manager != None):
+      handle_user(manager)
   
+  # Saving user data when quitting
+  save_user(manager, user_num)
+
+def save_user(u_manager, u_num):
+  pass
+
 def login(data_str):
-  '''Attempts login and when valid, enters user loop'''
-  while True:
-    # If no instances in data, start by creating new user
-    if(len(data_str) == 0):
-      print('\nThere are no users yet!\n')
-      return
-    # If there are instances in data, attempt a login
-    else:
-      user_list = []
-      users = json.loads(data_str)
+  '''Attempts login and when valid, returns corrseponding user_manager'''
+  total_users = 0
 
-      # Instantiate only user objects for all users
-      for user in users:
-        # Creating dictionary representing user instance (contains User, Debts, Subs, ...)
-        user_data_string = users[user]
-        user_data = User.from_json(user_data_string)
+  # If no instances in data, cannot login
+  if(len(data_str) == 0):
+    print('\nThere are no users yet!\n')
+    return [None, 0]
+  # If there are instances in data, attempt a login
+  else:
+    user_list = []
+    user_managers_dict = json.loads(data_str)
 
-        # Creating user objects from data
-        user_list.append(User.from_json(user_data["User"]))
+    # Instantiate only user objects for all users
+    for user in user_managers_dict:
+      # Creating dictionary representing user instance (contains User, Debts, Subs, ...)
+      user_data_string = user_managers_dict[user]
+      users_dict = User.from_json(user_data_string)
+      total_users += 1
+      # Creating user objects from data and appends to user list
+      user_list.append(User.from_json(users_dict["User"]))
 
-      # Attempting login
-      while True:
-        username = input("Username: ")
-        if(username == "back"):
-          return None
-        
-        target = 0
-        for i in range(user_list):
-          # User obj found with matching username
-          if user_list[i].name == username:
-            password = input("Password: ")
-            if password == "back":
-              break
+    # Attempting login
+    while True:
+      username = input("Username: ")
+      if(username == "back"):
+        return None
+      
+      target = 0
+      for i in range(len(user_list)):
+        # User obj found with matching username
+        if user_list[i].name == username:
+          target = i
+          password = input("Password: ")
+          if password == "back":
+            break
+          # If username and password match, create rest of UserManager
+          if user_list[i].password == password:
+            manager = UserManager()
+            manager.user = user_list[i]
+            # Creating Debts objects from data
+            debts_list = json.loads(users_dict["Debts"])
+            for debt_string in debts_list:
+              new_debt = Debt.from_json(debt_string)
+              manager.debts.append(new_debt)
 
-            if user_list[i].password == password:
-              manager = UserManager()
-              manager.user = user_list[i]
-              # If username and password match, create rest of UserManager
-              # Creating Debts objects from data
-              debts_list = json.loads(user_data["Debts"])
-              for debt_string in debts_list:
-                new_debt = Debt.from_json(debt_string)
-                manager.debts.append(new_debt)
+            # Creating Expense objects from data
+            expenses_list = json.loads(users_dict["Expenses"])
+            for expense_string in expenses_list:
+              new_expense = Expense.from_json(expense_string)
+              manager.expenses.append(new_expense)
 
-              # Creating Expense objects from data
-              expenses_list = json.loads(user_data["Expenses"])
-              for expense_string in expenses_list:
-                new_expense = Expense.from_json(expense_string)
-                manager.expenses.append(new_expense)
+            # Creating Subscriptions objects from data
+            subs_list = json.loads(users_dict["Subscriptions"])
+            for sub_string in subs_list:
+              new_sub = Subscription.from_json(sub_string)
+              manager.subcriptions.append(new_sub)
 
-              # Creating Subscriptions objects from data
-              subs_list = json.loads(user_data["Subscriptions"])
-              for sub_string in subs_list:
-                new_sub = Subscription.from_json(sub_string)
-                manager.subcriptions.append(new_sub)
+            # Creating Meals objects from data
+            meals_list = json.loads(users_dict["Meals"])
+            for meal_string in meals_list:
+              new_meal = Meal.from_json(meal_string)
+              manager.meals.append(new_meal)
 
-              # Creating Meals objects from data
-              meals_list = json.loads(user_data["Meals"])
-              for meal_string in meals_list:
-                new_meal = Meal.from_json(meal_string)
-                manager.meals.append(new_meal)
+            # Creating Ingredient objects from data
+            ingrs_list = json.loads(users_dict["Ingredients"])
+            for ing_string in ingrs_list:
+              new_ingr = Ingredients.from_json(ing_string)
+              manager.ingredients.append(new_ingr)
 
-              # Creating Ingredient objects from data
-              ingrs_list = json.loads(user_data["Ingredients"])
-              for ing_string in ingrs_list:
-                new_ingr = Ingredients.from_json(ing_string)
-                manager.ingredients.append(new_ingr)
-
-              return manager
-            else:
-              print("Password does not match!\n")
+            return manager
+          else:
+            print("Password does not match!\n")
         
         # When through all of users without finding matching username
         print("Username does not exist!\n")  
               
 
-  user_dict = json.loads(data_string)
-  print(type(user_dict))
+  users_dict = json.loads(data_string)
+  print(type(users_dict))
 
   # #gets list of users from json file
   # users = User.from_json()
@@ -121,12 +134,13 @@ def login(data_str):
   # #returns a the user object that is the valid user 
   # return valid_user
   
-def create_user():
+def create_user_manager():
   new_manager = UserManager()
   new_manager.user = User.create()
+  return new_manager
+
+def handle_user(u_manager):
   pass
-
-
 
 
 #The main function of the program
