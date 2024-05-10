@@ -18,7 +18,7 @@ class Meal:
         info =  "Meal: " + self.food +"\nCost: "+ str(self.price) + "\nIngredients: "+ str(self.ingredients) 
         ing_list = ""
         for ingredient in self.ingredients:
-            ing_list += ingredient.ingredient_name + ", "
+            ing_list += ingredient + ", "
         ing_list = ing_list[:-2]
         if len(ing_list) >= 28:
             ing_list = ing_list[:28] + "..."
@@ -27,7 +27,12 @@ class Meal:
     
     
     def to_json(self):
-        return json.dumps(self.__dict__)
+        attr_dict = {
+            "Food name": self.food,
+            "Meal price": self.price,
+            "Ingredients": self.ingredients
+        }
+        return json.dumps(attr_dict)
 
     def set_food_name(self):
         '''Gives the meal object a price based on ingredients used in the meal'''
@@ -86,6 +91,7 @@ class Meal:
         dood.ingredients = dood.add_ingredients()
         dood.price = dood.set_price()
         return dood
+    
     def edit_menu(self):
         menu_string = f"Editing Meals {self.name}\n\n1. Change name of meal\n2. add ingredients\n3. Change price of meal\n4. Back\nSelection: "
         while True:

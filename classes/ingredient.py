@@ -74,7 +74,7 @@ class Ingredients:
         return ingre
 
     def edit_menu(self):
-        menu_string = f"Editing Ingredient {self.name}\n\n1. Change name\n2. Change price for serving\n3. Change calorie count per serving\n4. Back\nSelection: "
+        menu_string = f"Editing Ingredient {self.name}\n\n1. Change name\n2. Change price for serving\n3. Change calorie count per serving\n4. Edit nutrients\n5. Back\nSelection: "
         
         while True:
             choice = help.validate_input(1, menu_string, valids=[1,2,3,4])
@@ -87,6 +87,9 @@ class Ingredients:
             if choice == 3:
                 self.calories = help.validate_input(1, "Enter new calorie count per serving")
             if choice == 4:
+                for categroy in self.nutrients:
+                    self.nutrients[categroy] = help.validate_input(0.0, f"How many grams of {categroy} does a serving of {self.name} have?: ")
+            if choice == 5:
                 return
 
 def main():
