@@ -10,85 +10,81 @@ import json
 
 def boot_up():
   '''Function to start running program'''
+  print("--------------------Welcome to Budget Manager--------------------\n\nAt any point, type to 'back' to go back if selection not available\n")
+
   # Loads data from text file
   f = open("../data/data.txt")
   data_string = f.read()
   f.close()
-  users_lib = None
+
+  # Dictionary pairing all users with user_manager json strings
+  users_lib = {}
+
+  # Fills users_lib if there  are stored users in data file
   if(len(data_string) != 0):
     users_lib = json.loads(data_string)
 
-  print("--------------------Welcome to Budget Manager--------------------\n\nAt any point, type to 'back' to go back if selection not available\n")
-
-  user_num = 0
-  manager = None
+  user_num = 0   # Tracks index of 'focused' user_manager
+  manager = None # Tracks 'focused' user_manager
 
   while True:
-    user_count = 0
+    user_count = 0 # Tracks total amount of users to store
 
+    # Counts amount of users if there where any to begin with
     if users_lib != None:
       for user in users_lib:
         user_count += 1
-
 
     choice = help.validate_input(1, "Select from the following:\n1. Log in\n2. Create new account\n3. Quit\nSelection: ", valids=[1,2,3])
 
     if choice == 1:
       print("Logging in")
       manager, user_num = login(data_string)
+
     if choice == 2:
       print("Creating new account")
       manager, user_num = create_user_manager(user_count)
-      save_user(manager,user_num, users_lib)
+      user_name = f"User {user_num}"
+      users_lib[user_name] = manager.to_json()
+      save_users(users_lib)
+
     if choice == 3:
       print("Quitting")
       break
 
     if(manager != None):
       handle_user(manager)
+      user_name = f"User {user_num}"
+      users_lib[user_name] = manager.to_json()
+      save_users(users_lib)
   
   if manager == None:
     return
 
   # Saving user data when quitting
-  save_user(manager, user_num, users_lib)
+  save_users(users_lib)
 
-def save_user(u_manager, u_num, all_managers):
-  '''Stores complete user data and updates user_manager defined by u_num with u_manager
-  u_manager: User manger that has been open and potentially edited
-  u_num: Position of u_manager in mega data
-  all_managers: dictionary holding data of all user managers
+def save_users(all_managers):
   '''
-  updated_manager_json = u_manager.to_json()
-  users_managers = {} # Will be dict of updated user mangers json strings to store
-  count = 0
-  # For each user stored in data, create corresponding user manger
-  for user in all_managers:
-    user_id = "User " + str(count)
-    # If looking at user manager pointed at u_num, replace with updated u_manager
-    if count == u_num:
-      users_managers[user_id] = updated_manager_json
-    else:
-      users_managers[user_id] = user
-
-  storage = json.dumps(users_managers, indent=4)
-  f = open("../data/data.txt")
+  Saves all_managers to data file
+  '''
+  storage = json.dumps(all_managers, indent=4)
+  f = open("../data/data.txt", "w")
   f.write(storage)
   f.close()
   return storage
 
-def login(data_str):
+def login(users_lib):
   '''Attempts login and when valid, returns corrseponding user_manager'''
   total_users = 0
 
   # If no instances in data, cannot login
-  if(len(data_str) == 0):
+  if not users_lib:
     print('\nThere are no users yet!\n')
     return [None, 0]
   
   # Otherwise, there are instances in data, attempt a login
   ums_list = [] # List of instantiated user managers
-  users_lib = json.loads(data_str) # Dict storing json of all user managers stored
 
   # Instantiate only user objects for all users
   for user in users_lib:
@@ -127,12 +123,11 @@ def login(data_str):
 def create_user_manager(user_counts):
   '''Creates new user manager instance by first instantiating User'''
   new_manager = UserManager()
-  new_manager.user = User.create()
+  new_manager.user = User()
   return [new_manager, user_counts+1]
 
 def handle_user(u_manager):
   pass
-
 
 #The main function of the program
 def main():
