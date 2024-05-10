@@ -19,7 +19,6 @@ def validate_input(correct_type, question, regex=r"", valids=[], pos=True):
         if regex != "":
             if re.search(regex, user_input):
                 validated = True
-                print(re.findall(regex, user_input))
                 user_input = re.findall(regex, user_input)[0]
                 
                 if type(correct_type) == type("string"):

@@ -156,7 +156,7 @@ class User:
         obj.pay_schedule = attr_dict["pay_schedule"]
 
         last = attr_dict["last_pay_date"]
-        obj.last_pay_date = dt.date(int(last[0]), int(last[1]), int(last[2]))
+        obj.last_pay_date = dt(int(last[0]), int(last[1]), int(last[2]))
         
         return obj
     
@@ -193,143 +193,84 @@ class User:
                 new_user.pay_schedule = "Weekly"
     
         new_user.income = help.validate_input(0.0, "What is your expected income for every pay period?(If paid weekly, expected payment after every week): $", pos=True)
-        new_user.income = help.validate_date("When was the last time you were paid?(MM-DD-YYYY): ", max_date=dt.now())
+        new_user.last_pay_date = help.validate_date("When was the last time you were paid?(MM-DD-YYYY): ", max_date=dt.now())
 
         return new_user
 
     def edit_user(self):
         '''Allows the user to edit their user information'''
-        print("\nOptions:")
-        print("1. Set username")
-        print("2. Set email")
-        print("3. Set password")
-        print("4. Set income")
-        print("5. Set pay schedule")
-        print("6. update funds")
-        print("7. View user details")
-        choice = help.validate_input(0,"Selection an option: ", valids=[1,2,3,4,5,6,7])
+        while True:
+            print("\nOptions:")
+            print("1. Set username")
+            print("2. Set email")
+            print("3. Set password")
+            print("4. Set income")
+            print("5. Set pay schedule")
+            print("6. Update Funds")
+            print("7. View user details")
+            print("8. Exit")
+            choice = help.validate_input(0,"Selection an option: ", valids=[1,2,3,4,5,6,7,8])
 
-        if choice == 1:
-            # Set username
-            username = input("\nEnter the new username: ")
-            self.set_username(username)
-            print(f"Username set to: {self.name}")
+            if choice == 1:
+                # Set username
+                username = input("\nEnter the new username: ")
+                self.set_username(username)
+                print(f"Username set to: {self.name}")
 
-        elif choice == 2:
-            # Set email
-            email = input("\nEnter the new email address: ")
-            self.set_email(email)
-            print(f"Email set to: {self.email}")
+            elif choice == 2:
+                # Set email
+                email = input("\nEnter the new email address: ")
+                self.set_email(email)
+                print(f"Email set to: {self.email}")
 
-        elif choice == 3:
-            # Set password
-            password = input("\nEnter the new password: ")
-            self.set_password(password)
-            print(f"Password set successfully.")
+            elif choice == 3:
+                # Set password
+                password = input("\nEnter the new password: ")
+                self.set_password(password)
+                print(f"Password set successfully.")
 
-        elif choice == 4:
-            # Set income
-            while True:
-                try:
-                    income = float(input("\nEnter the new income: "))
-                    break
-                except ValueError:
-                    print("Invalid input. Please enter a numeric value.")
-            self.set_income(income)
-            print(f"Income set to: ${self.income:.2f}")
+            elif choice == 4:
+                # Set income
+                while True:
+                    try:
+                        income = float(input("\nEnter the new income: "))
+                        break
+                    except ValueError:
+                        print("Invalid input. Please enter a numeric value.")
+                self.set_income(income)
+                print(f"Income set to: ${self.income:.2f}")
 
-        elif choice == 5:
-            # Set pay schedule
-            while True:
-                try:
-                    pay_schedule = int(input("\nEnter the pay schedule in days: "))
-                    break
-                except ValueError:
-                    print("Invalid input. Please enter a numeric value.")
-            self.set_pay_schedule(pay_schedule)
-            print(f"Pay schedule set to: Every {self.pay_schedule} days")
+            elif choice == 5:
+                # Set pay schedule
+                while True:
+                    try:
+                        pay_schedule = int(input("\nEnter the pay schedule in days: "))
+                        break
+                    except ValueError:
+                        print("Invalid input. Please enter a numeric value.")
+                self.set_pay_schedule(pay_schedule)
+                print(f"Pay schedule set to: Every {self.pay_schedule} days")
 
-        elif choice == 6:
-            #calls update funds basically
-            self.update_funds()
-            print(self.get_funds())
+            elif choice == 6:
+                #calls update funds basically
+                self.update_funds()
+                print(self.get_funds())
 
-        elif choice == 7:
-            # View user details
-            print("\nUser Details:")
-            print(self)
+            elif choice == 7:
+                # View user details
+                print("\nUser Details:")
+                print(self)
+            
+            elif choice == 8:
+                return
 
 
 #vvv hould be moved into main file vvv
 def main():
     # Create a User object with default values
-    user = User()
-
-    # Menu loop
-    while True:
-        print("\nOptions:")
-        print("1. Set username")
-        print("2. Set email")
-        print("3. Set password")
-        print("4. Set income")
-        print("5. Set pay schedule")
-        print("6. View user details")
-        print("7. Exit")
-
-        choice = input("\nChoose an option (1-7): ")
-
-        if choice == "1":
-            # Set username
-            username = input("\nEnter the new username: ")
-            user.set_username(username)
-            print(f"Username set to: {user.name}")
-
-        elif choice == "2":
-            # Set email
-            email = input("\nEnter the new email address: ")
-            user.set_email(email)
-            print(f"Email set to: {user.email}")
-
-        elif choice == "3":
-            # Set password
-            password = input("\nEnter the new password: ")
-            user.set_password(password)
-            print(f"Password set successfully.")
-
-        elif choice == "4":
-            # Set income
-            while True:
-                try:
-                    income = float(input("\nEnter the new income: "))
-                    break
-                except ValueError:
-                    print("Invalid input. Please enter a numeric value.")
-            user.set_income(income)
-            print(f"Income set to: ${user.income:.2f}")
-
-        elif choice == "5":
-            # Set pay schedule
-            while True:
-                try:
-                    pay_schedule = int(input("\nEnter the pay schedule in days: "))
-                    break
-                except ValueError:
-                    print("Invalid input. Please enter a numeric value.")
-            user.set_pay_schedule(pay_schedule)
-            print(f"Pay schedule set to: Every {user.pay_schedule} days")
-
-        elif choice == "6":
-            # View user details
-            print("\nUser Details:")
-            print(user)
-
-        elif choice == "7":
-            # Exit the program
-            print("\nExiting the program.")
-            break
-
-        else:
-            print("\nInvalid choice. Please try again.")
+    user = User.create()
+    x =user.to_json()
+    print(x)
 
 if __name__ == "__main__":
     main()

@@ -107,7 +107,7 @@ class Debt:
         attr_dict = {
             "name": self.name,
             "amount": self.amount,
-            "interest": self.amount,
+            "interest": self.interest,
             "is_compound": self.is_compound,
             "int_period": self.int_period,
             "start_date": [start.strftime("%Y"), start.strftime("%m"), start.strftime('%d')],
@@ -134,10 +134,10 @@ class Debt:
         new_debt.int_period = attr_dict["int_period"]
 
         start = attr_dict["start_date"]
-        new_debt.start_date = dt.date(int(start[0]), int(start[1]), int(start[2]))
+        new_debt.start_date = dt(int(start[0]), int(start[1]), int(start[2]))
 
         last = attr_dict["last_inc"]
-        new_debt.last_inc = dt.date(int(last[0]), int(last[1]), int(last[2]))
+        new_debt.last_inc = dt(int(last[0]), int(last[1]), int(last[2]))
 
         return new_debt
     
@@ -161,7 +161,7 @@ class Debt:
         return new_debt
 
     def edit_menu(self):
-        menu_string = f"Editing Debt {self.name}\n\n1. change Debt name\n2. Change initial loan amount\n3. Change how much Debt is owed\n4. Change debt interest rate\n5.  Change the type of interest\n6. Change the debt's interest period\n7. Change when Debt was last applied\n8. Back\nSelection: "
+        menu_string = f"Editing Debt {self.name}\n\n1. Change Debt name\n2. Change initial loan amount\n3. Change how much Debt is owed\n4. Change debt interest rate\n5. Change the type of interest\n6. Change the debt's interest period\n7. Change when Debt was last applied\n8. Back\nSelection: "
         while True:
             choice = help.validate_input(1, menu_string, valids=[1,2,3,4,5,6,7,8])
             if choice == 1:
