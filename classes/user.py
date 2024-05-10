@@ -197,6 +197,62 @@ class User:
 
         return new_user
 
+    def edit_user(self):
+        '''Allows the user to edit their user information'''
+        print("\nOptions:")
+        print("1. Set username")
+        print("2. Set email")
+        print("3. Set password")
+        print("4. Set income")
+        print("5. Set pay schedule")
+        print("6. View user details")
+
+        if choice == "1":
+            # Set username
+            username = input("\nEnter the new username: ")
+            self.set_username(username)
+            print(f"Username set to: {self.name}")
+
+        elif choice == "2":
+            # Set email
+            email = input("\nEnter the new email address: ")
+            self.set_email(email)
+            print(f"Email set to: {self.email}")
+
+        elif choice == "3":
+            # Set password
+            password = input("\nEnter the new password: ")
+            self.set_password(password)
+            print(f"Password set successfully.")
+
+        elif choice == "4":
+            # Set income
+            while True:
+                try:
+                    income = float(input("\nEnter the new income: "))
+                    break
+                except ValueError:
+                    print("Invalid input. Please enter a numeric value.")
+            user.set_income(income)
+            print(f"Income set to: ${self.income:.2f}")
+
+        elif choice == "5":
+            # Set pay schedule
+            while True:
+                try:
+                    pay_schedule = int(input("\nEnter the pay schedule in days: "))
+                    break
+                except ValueError:
+                    print("Invalid input. Please enter a numeric value.")
+            self.set_pay_schedule(pay_schedule)
+            print(f"Pay schedule set to: Every {self.pay_schedule} days")
+
+        elif choice == "6":
+            # View user details
+            print("\nUser Details:")
+            print(self)
+
+
 #vvv hould be moved into main file vvv
 def main():
     # Create a User object with default values
