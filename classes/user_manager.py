@@ -195,13 +195,22 @@ class UserManager:
       return f"Your budget was ${self.spending_limit}. \nYou spent ${total_spending - self.spending_limit} over budget!"
     else:
       return f"Your budget was ${self.spending_limit}. \nYou spent ${total_spending - self.spending_limit} under budget!"
-    
+
+  def user_menu(self):
+    '''creates a menu to select and call different user menus options'''
+     
+    print("Here is a list of your current user information:")
+    print(self.list_user())
+
+    #edit
+    print("which subscription record would you like to edit?")
+    self.user.edit_menu()
+
   def debt_menu(self):
     '''creates a menu to select and call different debt menus options'''
 
     print("Here is a list of all debt records:")
-    for i in range(len(self.debts[i])):
-      print(f"{i+1}. {self.debts[i]}")
+    print(self.list_debts())
     
     print("What would you like to do? \n1. create. \n2. edit \n3. delete")
     options = help.validate_input(0, "Please select an option (1/2): ", valids=[1,2,3])
@@ -230,8 +239,7 @@ class UserManager:
     '''creates a menu to select and call different expense menus options'''
     
     print("Here is a list of all current expenses:")
-    for i in range(len(self.expenses[i])):
-      print(f"{i+1}. {self.expenses[i]}")
+    print(self.list_exps())
     
     print("What would you like to do? \n1. create. \n2. edit \n3. delete")
     options = help.validate_input(0, "Please select an option (1/2/3): ", valids=[1,2,3])
@@ -260,8 +268,7 @@ class UserManager:
     '''creates a menu to select and call different subscription menus options'''
      
     print("Here is a list of all current subscriptions:")
-    for i in range(len(self.subscriptions[i])):
-      print(f"{i+1}. {self.subscriptions[i]}")
+    print(self.list_subs())
     
     print("What would you like to do? \n1. create. \n2. edit \n3. delete")
     options = help.validate_input(0, "Please select an option (1/2/3): ", valids=[1,2,3])
@@ -290,8 +297,7 @@ class UserManager:
     '''creates a menu to select and call different meal menus options'''
      
     print("Here is a list of all current meal: ")
-    for i in range(len(self.meals[i])):
-      print(f"{i+1}. {self.meals[i]}")
+    print(self.list_meals())
     
     print("What would you like to do? \n1. create. \n2. edit \n3. delete")
     options = help.validate_input(0, "Please select an option (1/2/3): ", valids=[1,2,3])
@@ -320,8 +326,7 @@ class UserManager:
     '''creates a menu to select and call different ingredient menu options'''
      
     print("Here is a list of all current ingriedients:")
-    for i in range(len(self.ingredients[i])):
-      print(f"{i+1}. {self.ingredients[i]}")
+    print(self.list_ingrs())
     
     print("What would you like to do? \n1. create. \n2. edit \n3. delete")
     options = help.validate_input(0, "Please select an option (1/2/3): ", valids=[1,2,3])
@@ -345,7 +350,6 @@ class UserManager:
         self.ingredients.pop(choice-1)
       else:
         self.ingredients_menu()
-
 
 def main():
   pass
