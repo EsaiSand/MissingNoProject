@@ -139,7 +139,7 @@ class Expense:
 def main():
     # Create an Expense object
     expense = Expense.create()
-     x = expenses()
+     x = Expense()
      x.edit_menu()
     
     # Menu loop
