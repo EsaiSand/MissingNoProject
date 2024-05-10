@@ -23,6 +23,7 @@ class UserManager:
     self.subcriptions = []
     self.meals = []
     self.ingredients = []
+    self.spending_limit = 0.0
 
   def list_user(self):
     info = str(self.user)
@@ -139,7 +140,8 @@ class UserManager:
       "Expenses": expenses_json,
       "Subscriptions": subscriptions_json,
       "Meals": meals_json,
-      "Ingredients": ingredients_json
+      "Ingredients": ingredients_json,
+      "Spending Limit": self.spending_limit
     }
     json_format = json.dumps(attr_dict, indent=4)
     return json_format
@@ -175,37 +177,26 @@ class UserManager:
     for ingredient in lst_ingredients:
       new_userman.ingredients.append(Ingredients().from_json(ingredient))
 
+    new_userman.spending_limit = attr_dict["Spending Limit"]
+
     return new_userman
   
-  def create_obj(self, obj):
-    '''
-    passes in an object type and create an object based what object is passed to it
-    '''
-    """
-    What would you like to do?
-    > create obj
-    > update obj
-    > remove obj
+  def set_spending_limit(self):
+    '''has the user create a spending limit for themselves.'''
+    self.spending_limit = help.validate_input(0.0, "What is the limit you are willing to spend this month?: $")
+    return self.spending_limit
 
-    if create obj:
-      obj.create()
-    elif update obj:
-      obj.update
+  def get_budget(self):
+    '''gets the budget the user has created and compares it to the ammount they have spent that month'''
+
+    total_spending = 0.0
+    for i in range(len(self.expenses)):
+      total_spending += self.expenses[i].cost
+    
+    if total_spending >= self.spending_limit:
+      return f"Your budget was ${self.spending_limit}. \nYou spent ${total_spending - self.spending_limit} over budget!"
     else:
-      remove object from self.obj list
-    """
-
-    inpt = help.validate_input(0, "What would you like to do? \n1. Create \n2. Update \n3.remove", valids=[1,2,3])
-    if inpt == 1:
-      obj().create()
-    #this will need to be set, not update. Don't know if this one will work either, This might be used in main
-    if inpt == 2:
-      obj().update()
-    #Idk if this works
-    if inpt == 3:
-      for obj in self.obj:
-        self.obj.remove(obj)
-
+      return f"Your budget was ${self.spending_limit}. \nYou spent ${total_spending - self.spending_limit} under budget!"
 
 def main():
   pass

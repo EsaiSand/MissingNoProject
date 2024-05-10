@@ -145,8 +145,10 @@ def handle_user(u_manager):
 
 #The main function of the program
 def main():
-  # '''Main function of the program. What runs the full code'''
+  '''Main function of the program. What runs the full code'''
   boot_up("1","","")
+
+
 
 if __name__ == "__main__":
   main()
