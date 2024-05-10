@@ -7,9 +7,6 @@ from user import User
 import helpers as help
 import json
 
-def main():
-  UserManager.startup()
-
 class UserManager:
   '''User manager represents a user acccount:
   It controls the connection between a User object and its
@@ -27,6 +24,7 @@ class UserManager:
 
   def list_user(self):
     info = str(self.user)
+    return info
 
   def list_debts(self):
     count = 0
@@ -200,6 +198,5 @@ class UserManager:
 
 def main():
   pass
-
 if __name__ == "__main__":
     main()
