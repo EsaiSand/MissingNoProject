@@ -93,7 +93,7 @@ class Debt:
 
         x = r"%x"
         title = f"\n~|{'Debt': ^15}|{'Initial': ^12}|{'Current': ^12}|{'Rate': ^5}|{'Rate type': ^10}|{'Applied': ^9}|{'Track Start': ^15}|Last Increment|~\n"
-        contents = f"||{self.name: ^15}|{self.prin_amt: ^12}|{self.amount: ^12}|{self.interest: ^5}|{int_type: ^10}|{self.int_period: ^9}|{self.start_date.strftime(x): ^15}|{self.last_inc.strftime(x): ^14}||"
+        contents = f"||{self.name: ^15}|{self.prin_amt: ^12}|{self.amount: ^12}|{self.interest: ^5}|{int_type: ^10}|{self.int_period: ^9}|{self.start_date.strftime(x): ^15}|{self.last_inc.strftime(x): ^14}||\n"
         # info = f"\n~|{'Debt': ^15}|{'Initial': ^12}|{'Current': ^12}|{'Rate': ^5}|{'Rate type': ^10}|{'Applied': ^9}|{'Track Start': ^15}|Last Increment|~\n||{self.name: ^15}|{self.prin_amt: ^12}|{self.amount: ^12}|{self.interest: ^5}|{int_type: ^10}|{self.int_period: ^9}|{self.start_date.strftime(x): ^15}|{self.last_inc.strftime(x): ^14}||"
         return title + contents
     

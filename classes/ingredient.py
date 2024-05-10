@@ -34,7 +34,7 @@ class Ingredients:
 
         cat_str = cat_str[:-1]
 
-        return f"~|{'Ingredient': ^12}|{'Price': ^9}|Calories |{'Nutrients': ^45}|~\n||{self.name: ^12}|{self.price: ^9}|{self.calories: ^9}|{cat_str: ^45}||"
+        return f"~|{'Ingredient': ^12}|{'Price': ^9}|Calories |{'Nutrients': ^45}|~\n||{self.name: ^12}|{self.price: ^9}|{self.calories: ^9}|{cat_str: ^45}||\n"
     
     def to_json(self):
         attr_dict = {

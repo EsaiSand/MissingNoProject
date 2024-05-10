@@ -23,7 +23,7 @@ class Meal:
         if len(ing_list) >= 28:
             ing_list = ing_list[:28] + "..."
 
-        return f"~|Meal     |Cost   |Ingredients                    |~\n||{self.food}|{self.price}|{ing_list: ^31}||"
+        return f"~|Meal     |Cost   |Ingredients                    |~\n||{self.food}|{self.price}|{ing_list: ^31}||\n"
     
     
     def to_json(self):
